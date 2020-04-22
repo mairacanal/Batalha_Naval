@@ -18,11 +18,11 @@ void hidroavioes (int** tabuleiro_baixo);
 
 // MAIN FUNCTION
 int main (){
-    int **tabuleiro_baixo1 = malloc (LINHAS * sizeof(*tabuleiro_baixo1));
-    int **tabuleiro_baixo2 = malloc (LINHAS * sizeof(*tabuleiro_baixo2));
+    int **tabuleiro_baixo1 = (int **) calloc (LINHAS, sizeof(int *));
+    int **tabuleiro_baixo2 = (int **) calloc (LINHAS, sizeof(int *));
     for (int i = 0; i < LINHAS; i++){
-        tabuleiro_baixo1[i] = malloc (COLUNAS * sizeof (*tabuleiro_baixo1[i]));
-        tabuleiro_baixo2[i] = malloc (COLUNAS * sizeof (*tabuleiro_baixo2[i]));
+        tabuleiro_baixo1[i] = (int *) calloc (COLUNAS, sizeof (int));
+        tabuleiro_baixo2[i] = (int *) calloc (COLUNAS, sizeof (int));
     }
     posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
     for(int i = 0; i < LINHAS; i++){
@@ -30,6 +30,10 @@ int main (){
             if (j == (COLUNAS - 1)) printf("%d\n", tabuleiro_baixo1[i][j]);
             else printf("%d ", tabuleiro_baixo1[i][j]);
         }
+    }
+    for (int i = 0; i < LINHAS; i++){
+        free (tabuleiro_baixo1[i]);
+        free (tabuleiro_baixo2[i]);
     }
     free (tabuleiro_baixo1);
     free (tabuleiro_baixo2);
@@ -39,12 +43,6 @@ int main (){
 
 // AUX FUNCTIONS
 void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
-    for (int i = 0; i < LINHAS; i++){
-        for (int j = 0; j < COLUNAS; j++){
-            tabuleiro_baixo1[i][j] = 0;
-            tabuleiro_baixo2[i][j] = 0;
-        }
-    }
     //Posicionamento dos porta-aviões(P) no tabuleiro do jogador 1 e 2
     portaavioes (tabuleiro_baixo1);
     portaavioes (tabuleiro_baixo2);
