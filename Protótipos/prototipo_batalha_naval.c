@@ -17,6 +17,13 @@ typedef struct {
     int linha;
     int coluna;
 } jogada;
+
+typedef struct {
+    int segundos;
+    int minutos;
+    int horas;
+} struct_relogio;
+
 // FIM STRUCT
 
 // PROTÓTIPOS
@@ -28,6 +35,7 @@ void hidroavioes (int** tabuleiro_baixo);
 char** design_tabuleiro_alto ();
 jogada pow ();
 void printar_tabuleiro (char **tabuleiro_alto);
+struct_relogio relogio (clock_t clock_inicial);
 void jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2);
 // FIM DOS PROTÓTIPOS
 
@@ -86,10 +94,10 @@ void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
 }
 
 void portaavioes (int** tabuleiro_baixo){
-    int linhaP, colunaP;
+    srand(time(NULL)*time(NULL));
+    int linhaP = 2 + (rand() % 12);
     srand(time(NULL));
-    linhaP = 2 + (rand() % 12);
-    colunaP = 3 + (rand() % 11);
+    int colunaP = 3 + (rand() % 11);
     for (int i = (colunaP - 2); i <= (colunaP + 2); i++) tabuleiro_baixo[linhaP][i] = 2;
     for (int j = (linhaP - 1); j <= (linhaP + 2); j++) {
         tabuleiro_baixo[j][colunaP - 1] = 2;
@@ -100,8 +108,9 @@ void portaavioes (int** tabuleiro_baixo){
 void couracados (int** tabuleiro_baixo){
     int linhaC, colunaC;
     do{
-        srand(time(NULL));
+        srand(time(NULL)*time(NULL));
         linhaC = 3 + (rand() % 10);
+        srand(time(NULL));
         colunaC = 3 + (rand() % 11);
     } while (tabuleiro_baixo[linhaC][colunaC - 2] != 0 || tabuleiro_baixo[linhaC][colunaC - 1] != 0 || tabuleiro_baixo[linhaC][colunaC] != 0 || tabuleiro_baixo[linhaC][colunaC + 1] != 0 || tabuleiro_baixo[linhaC][colunaC + 2] != 0 || tabuleiro_baixo[linhaC - 2][colunaC + 1] != 0 || tabuleiro_baixo[linhaC - 1][colunaC + 1] != 0 || tabuleiro_baixo[linhaC + 1][colunaC - 1] != 0 || tabuleiro_baixo[linhaC + 2][colunaC - 1] != 0 || tabuleiro_baixo[linhaC + 3][colunaC - 1] != 0);   
     for (int i = (colunaC - 2); i <= (colunaC + 2); i++) tabuleiro_baixo[linhaC][i] = 3;
@@ -112,8 +121,9 @@ void couracados (int** tabuleiro_baixo){
 void torpedeiros (int** tabuleiro_baixo){
     int linha, coluna;
     do{
-        srand(time(NULL));
+        srand(time(NULL)*time(NULL));
         linha = 2 + (rand() % 13);
+        srand(time(NULL));
         coluna = 2 + (rand() % 13);
     }while(tabuleiro_baixo[linha][coluna] != 0 || tabuleiro_baixo[linha][coluna - 1] != 0 || tabuleiro_baixo[linha][coluna + 1] != 0 || tabuleiro_baixo[linha - 1][coluna] != 0 || tabuleiro_baixo[linha - 1][coluna + 1] != 0 || tabuleiro_baixo[linha + 1][coluna - 1] != 0 || tabuleiro_baixo[linha + 1][coluna] != 0);
     for (int j = coluna; j <= (coluna + 1); j++) tabuleiro_baixo[linha - 1][j] = 4;
@@ -124,8 +134,9 @@ void torpedeiros (int** tabuleiro_baixo){
 void hidroavioes (int** tabuleiro_baixo){
     int linha, coluna;
     do{
-        srand(time(NULL));
+        srand(time(NULL)*time(NULL));
         linha = 1 + (rand() % 14);
+        srand(time(NULL));
         coluna = 5 + (rand() % 8);
     }while(tabuleiro_baixo[linha][coluna - 4] != 0 || tabuleiro_baixo[linha][coluna - 2] != 0 || tabuleiro_baixo[linha][coluna] != 0 || tabuleiro_baixo[linha][coluna + 2] != 0 || tabuleiro_baixo[linha + 1][coluna - 3] != 0 || tabuleiro_baixo[linha + 1][coluna - 1] != 0 || tabuleiro_baixo[linha + 1][coluna + 1] != 0 || tabuleiro_baixo[linha + 1][coluna + 3] != 0);
     for (int j = (coluna - 4); j <= (coluna + 2); j = (j + 2)) tabuleiro_baixo[linha][j] = 5;
@@ -200,7 +211,7 @@ jogada pow (){
         }
         else{
             letra = coordenadas_ins [strlen(coordenadas_ins) - 1]; 
-            switch (letra) {
+            switch (toupper(letra)) {
                 case 'A':
                     coordenadas.coluna = 1;
                     break;
@@ -277,58 +288,120 @@ void printar_tabuleiro (char **tabuleiro_alto){
     }
 }
 
+struct_relogio relogio (clock_t clock_inicial){
+    struct_relogio relogio;
+    
+    relogio.minutos = 0;
+    relogio.horas = 0;
+
+    relogio.segundos = (clock() - clock_inicial)/CLOCKS_PER_SEC;
+
+    while (relogio.segundos > 60){
+        relogio.minutos++;
+        relogio.segundos = relogio.segundos - 60;
+    }
+    while (relogio.minutos > 60){
+        relogio.horas++;
+        relogio.minutos = relogio.minutos - 60;
+    }
+    return relogio;
+}
+
 void jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2){
+    clock_t clock_inicial = clock();
     while (1){
+        int j1 = 0;
+        int j2 = 0;
         jogada jogador1, jogador2;
+
+        struct_relogio tempo_jogo = relogio(clock_inicial);
+
         // Jogador 1
-        printf("------------------------------ JOGADOR 1 -----------------------------\n\n");
-        printar_tabuleiro(tabuleiro_alto2);
-        jogador1 = pow();                       // Essa função retorna uma struct com jogador1.linha e jogador1.coluna
-        int posicao_array = (jogador1.linha * 17) + jogador1.coluna;
-        switch (tabuleiro_baixo2[jogador1.linha][jogador1.coluna]){
-            case 0:
-                tabuleiro_alto2 [posicao_array] = " * |";
+        RETURN_JOGADOR_1:
+            printf("------------------------------ JOGADOR 1 -----------------------------\n\n");
+            printf("%02d: %02d: %02d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+            printar_tabuleiro(tabuleiro_alto2);
+            jogador1 = pow();                       // Essa função retorna uma struct com jogador1.linha e jogador1.coluna
+            int posicao_array = (jogador1.linha * 17) + jogador1.coluna;
+            switch (tabuleiro_baixo2[jogador1.linha][jogador1.coluna]){
+                case 0:
+                    tabuleiro_alto2 [posicao_array] = " * |";
+                    break;
+                case 2:
+                    tabuleiro_alto2 [posicao_array] = "P2 |";
+                    tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
+                    j1++;
+                    break;
+                case 3:
+                    tabuleiro_alto2 [posicao_array] = "C2 |";
+                    tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
+                    j1++;
+                    break;
+                case 4:
+                    tabuleiro_alto2 [posicao_array] = "T2 |";
+                    tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
+                    j1++;
+                    break;
+                case 5:
+                    tabuleiro_alto2 [posicao_array] = "H2 |";
+                    tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
+                    j1++;
+                    break;
+                case 6:
+                    printf("Voce ja atirou nesse local! Tente novamente!\n");
+                    goto RETURN_JOGADOR_1;
+            }
+            printar_tabuleiro(tabuleiro_alto2);
+            printf("----------------------------------------------------------------------\n\n");
+            if (j1 == 84){
+                printf("Parabens JOGADOR 1. Voce venceu!\n");
                 break;
-            case 2:
-                tabuleiro_alto2 [posicao_array] = "P2 |";
-                break;
-            case 3:
-                tabuleiro_alto2 [posicao_array] = "C2 |";
-                break;
-            case 4:
-                tabuleiro_alto2 [posicao_array] = "T2 |";
-                break;
-            case 5:
-                tabuleiro_alto2 [posicao_array] = "H2 |";
-                break;
-        }
-        printar_tabuleiro(tabuleiro_alto2);
-        printf("----------------------------------------------------------------------\n\n");
-        Sleep(2000);
+            }
+            Sleep(2000);
+
         // Jogador 2
-        printf("------------------------------ JOGADOR 2 -----------------------------\n\n");
-        printar_tabuleiro(tabuleiro_alto1);
-        jogador2 = pow();                       // Essa função retorna uma struct com jogador2.linha e jogador2.coluna
-        posicao_array = (jogador2.linha * 17) + jogador2.coluna;
-        switch (tabuleiro_baixo1[jogador2.linha][jogador2.coluna]){
-            case 0:
-                tabuleiro_alto1 [posicao_array] = " * |";
+        tempo_jogo = relogio(clock_inicial);
+        RETURN_JOGADOR_2:
+            printf("------------------------------ JOGADOR 2 -----------------------------\n\n");
+            printf("%02d: %02d: %02d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+            printar_tabuleiro(tabuleiro_alto1);
+            jogador2 = pow();                       // Essa função retorna uma struct com jogador2.linha e jogador2.coluna
+            posicao_array = (jogador2.linha * 17) + jogador2.coluna;
+            switch (tabuleiro_baixo1[jogador2.linha][jogador2.coluna]){
+                case 0:
+                    tabuleiro_alto1 [posicao_array] = " * |";
+                    break;
+                case 2:
+                    tabuleiro_alto1 [posicao_array] = "P1 |";
+                    tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
+                    j2++;
+                    break;
+                case 3:
+                    tabuleiro_alto1 [posicao_array] = "C1 |";
+                    tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
+                    j2++;
+                    break;
+                case 4:
+                    tabuleiro_alto1 [posicao_array] = "T1 |";
+                    tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
+                    j2++;
+                    break;
+                case 5:
+                    tabuleiro_alto1 [posicao_array] = "H1 |";
+                    tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
+                    j2++;
+                    break;
+                case 6:
+                    printf("Voce ja atirou nesse local! Tente novamente!\n");
+                    goto RETURN_JOGADOR_2;
+            }
+            printar_tabuleiro(tabuleiro_alto1);
+            printf("----------------------------------------------------------------------\n\n");
+            if (j2 == 84){
+                printf("Parabens JOGADOR 2. Voce venceu!\n");
                 break;
-            case 2:
-                tabuleiro_alto1 [posicao_array] = "P2 |";
-                break;
-            case 3:
-                tabuleiro_alto1 [posicao_array] = "C2 |";
-                break;
-            case 4:
-                tabuleiro_alto1 [posicao_array] = "T2 |";
-                break;
-            case 5:
-                tabuleiro_alto1 [posicao_array] = "H2 |";
-                break;
-        }
-        printar_tabuleiro(tabuleiro_alto1);
-        printf("----------------------------------------------------------------------\n\n");
+            }
+            Sleep(2000);
     }
 }
 
