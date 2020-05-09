@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <time.h>
 #include <windows.h>
+#include "lib_naval.h"
 
 #define LINHAS 17
 #define COLUNAS 17
-#define NUM_COURACADOS 2
-#define NUM_TORPEDEIROS 3
-#define NUM_HIDROAVIOES 4
 #define STRINGS 289
 #define NUM_CHAR 7
 
@@ -19,19 +18,14 @@ typedef struct {
 } jogada;
 
 typedef struct {
-    int segundos;
-    int minutos;
-    int horas;
+    unsigned long int segundos;
+    unsigned long int minutos;
+    unsigned long int horas;
 } struct_relogio;
 
 // FIM STRUCT
 
 // PROTÓTIPOS
-void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2);
-void portaavioes (int** tabuleiro_baixo);
-void couracados (int** tabuleiro_baixo);
-void torpedeiros (int** tabuleiro_baixo);
-void hidroavioes (int** tabuleiro_baixo);
 char** design_tabuleiro_alto ();
 jogada pow ();
 void printar_tabuleiro (char **tabuleiro_alto);
@@ -47,6 +41,7 @@ int main (){
         tabuleiro_baixo1[i] = (int *) calloc (COLUNAS, sizeof (int));
         tabuleiro_baixo2[i] = (int *) calloc (COLUNAS, sizeof (int));
     }
+    
     posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
     char **tabuleiro_alto1 = design_tabuleiro_alto();
     char **tabuleiro_alto2 = design_tabuleiro_alto();
@@ -72,76 +67,6 @@ int main (){
 // END MAIN
 
 // AUX FUNCTIONS
-void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
-    //Posicionamento dos porta-aviões(P) no tabuleiro do jogador 1 e 2
-    portaavioes (tabuleiro_baixo1);
-    portaavioes (tabuleiro_baixo2);
-    //Posicionamento dos couraçados (C) no tabuleiro do jogador 1 e 2
-    for (int i = 1; i <= NUM_COURACADOS; i++){
-        couracados(tabuleiro_baixo1);
-        couracados(tabuleiro_baixo2);
-    }
-    //Posicionamento dos torpedeiros (T) no tabuleiro do jogador 1 e 2
-    for (int i = 1; i <= NUM_TORPEDEIROS; i++){
-        torpedeiros(tabuleiro_baixo1);
-        torpedeiros(tabuleiro_baixo2);
-    }
-    //Posicionamento dos hidroaviões (H) no tabuleiro do jogador 1 e 2
-    for (int i = 1; i <= NUM_HIDROAVIOES; i++){
-        hidroavioes(tabuleiro_baixo1);
-        hidroavioes(tabuleiro_baixo2);
-    }
-}
-
-void portaavioes (int** tabuleiro_baixo){
-    srand(time(NULL)*time(NULL));
-    int linhaP = 2 + (rand() % 12);
-    srand(time(NULL));
-    int colunaP = 3 + (rand() % 11);
-    for (int i = (colunaP - 2); i <= (colunaP + 2); i++) tabuleiro_baixo[linhaP][i] = 2;
-    for (int j = (linhaP - 1); j <= (linhaP + 2); j++) {
-        tabuleiro_baixo[j][colunaP - 1] = 2;
-        tabuleiro_baixo[j][colunaP + 1] = 2;
-    }
-}
-
-void couracados (int** tabuleiro_baixo){
-    int linhaC, colunaC;
-    do{
-        srand(time(NULL)*time(NULL));
-        linhaC = 3 + (rand() % 10);
-        srand(time(NULL));
-        colunaC = 3 + (rand() % 11);
-    } while (tabuleiro_baixo[linhaC][colunaC - 2] != 0 || tabuleiro_baixo[linhaC][colunaC - 1] != 0 || tabuleiro_baixo[linhaC][colunaC] != 0 || tabuleiro_baixo[linhaC][colunaC + 1] != 0 || tabuleiro_baixo[linhaC][colunaC + 2] != 0 || tabuleiro_baixo[linhaC - 2][colunaC + 1] != 0 || tabuleiro_baixo[linhaC - 1][colunaC + 1] != 0 || tabuleiro_baixo[linhaC + 1][colunaC - 1] != 0 || tabuleiro_baixo[linhaC + 2][colunaC - 1] != 0 || tabuleiro_baixo[linhaC + 3][colunaC - 1] != 0);   
-    for (int i = (colunaC - 2); i <= (colunaC + 2); i++) tabuleiro_baixo[linhaC][i] = 3;
-    for (int j = (linhaC - 2); j < linhaC; j++) tabuleiro_baixo[j][colunaC + 1] = 3;
-    for (int j = (linhaC + 1); j <= (linhaC + 3); j++) tabuleiro_baixo[j][colunaC - 1] = 3;
-}
-
-void torpedeiros (int** tabuleiro_baixo){
-    int linha, coluna;
-    do{
-        srand(time(NULL)*time(NULL));
-        linha = 2 + (rand() % 13);
-        srand(time(NULL));
-        coluna = 2 + (rand() % 13);
-    }while(tabuleiro_baixo[linha][coluna] != 0 || tabuleiro_baixo[linha][coluna - 1] != 0 || tabuleiro_baixo[linha][coluna + 1] != 0 || tabuleiro_baixo[linha - 1][coluna] != 0 || tabuleiro_baixo[linha - 1][coluna + 1] != 0 || tabuleiro_baixo[linha + 1][coluna - 1] != 0 || tabuleiro_baixo[linha + 1][coluna] != 0);
-    for (int j = coluna; j <= (coluna + 1); j++) tabuleiro_baixo[linha - 1][j] = 4;
-    for (int j = (coluna - 1); j <= (coluna + 1); j++) tabuleiro_baixo[linha][j] = 4;
-    for (int j = (coluna - 1); j <= coluna; j++) tabuleiro_baixo[linha + 1][j] = 4;
-}
-
-void hidroavioes (int** tabuleiro_baixo){
-    int linha, coluna;
-    do{
-        srand(time(NULL)*time(NULL));
-        linha = 1 + (rand() % 14);
-        srand(time(NULL));
-        coluna = 5 + (rand() % 8);
-    }while(tabuleiro_baixo[linha][coluna - 4] != 0 || tabuleiro_baixo[linha][coluna - 2] != 0 || tabuleiro_baixo[linha][coluna] != 0 || tabuleiro_baixo[linha][coluna + 2] != 0 || tabuleiro_baixo[linha + 1][coluna - 3] != 0 || tabuleiro_baixo[linha + 1][coluna - 1] != 0 || tabuleiro_baixo[linha + 1][coluna + 1] != 0 || tabuleiro_baixo[linha + 1][coluna + 3] != 0);
-    for (int j = (coluna - 4); j <= (coluna + 2); j = (j + 2)) tabuleiro_baixo[linha][j] = 5;
-    for (int j = (coluna - 3); j <= (coluna + 3); j = (j + 2)) tabuleiro_baixo[linha + 1][j] = 5;
-}
 
 char** design_tabuleiro_alto (){
     int c = 17;
@@ -309,9 +234,9 @@ struct_relogio relogio (clock_t clock_inicial){
 
 void jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2){
     clock_t clock_inicial = clock();
+    int j1 = 0;
+    int j2 = 0;
     while (1){
-        int j1 = 0;
-        int j2 = 0;
         jogada jogador1, jogador2;
 
         struct_relogio tempo_jogo = relogio(clock_inicial);
@@ -319,7 +244,7 @@ void jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto
         // Jogador 1
         RETURN_JOGADOR_1:
             printf("------------------------------ JOGADOR 1 -----------------------------\n\n");
-            printf("%02d: %02d: %02d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+            printf("%02lu: %02lu: %02lu\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
             printar_tabuleiro(tabuleiro_alto2);
             jogador1 = pow();                       // Essa função retorna uma struct com jogador1.linha e jogador1.coluna
             int posicao_array = (jogador1.linha * 17) + jogador1.coluna;
@@ -363,7 +288,7 @@ void jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto
         tempo_jogo = relogio(clock_inicial);
         RETURN_JOGADOR_2:
             printf("------------------------------ JOGADOR 2 -----------------------------\n\n");
-            printf("%02d: %02d: %02d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+            printf("%02lu: %02lu: %02lu\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
             printar_tabuleiro(tabuleiro_alto1);
             jogador2 = pow();                       // Essa função retorna uma struct com jogador2.linha e jogador2.coluna
             posicao_array = (jogador2.linha * 17) + jogador2.coluna;
