@@ -149,4 +149,17 @@ void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
     }
 }
 
+void printar_tabuleiro (char **tabuleiro_alto){
+    int c = 0;
+    for(int i = 0; i < STRINGS; i++){
+        c++;
+        if (c == 17){
+            c = 0;
+            printf("%s\n", tabuleiro_alto[i]);
+        }
+        else {
+            printf("%s", tabuleiro_alto[i]);
+        }
+    }
+}
 // FIM FUNÇÕES PÚBLICAS -------------------------------------------------------------------
