@@ -62,9 +62,9 @@ void regras (){              //Função auxiliar para chamar as regras do jogo
     printf("---------------------------------------------------- REGRAS -------------------------------------------------------\n");
     printf(" - A armada completa sera composta por um porta-avioes (P) com 11 blocos, dois couracados (C) com 10 blocos,\ntres torpedeiros (T) com 7 blocos e quadro hidroavioes (H) com 8 blocos.\n");
     printf(" - A sua armada sera posicionada aleatoriamente no seu campo de batalha.\n");
-    printf(" - Para atirar nos blocos do tabuleiro, voce devera digitar POW e a posicao que deseja atingir. \nPor exemplo, pow 15A atingira a bloco da linha 15, coluna A.\n");
-    printf(" - Se voce atingir um porta-avioes (P), voce recebera 43 pontos; um couracado (C), voce recebera 78 pontos; um\ntorpedeiro (T), voce recebera 82 pontos; um hidroaviao (H), voce recebera 125 pontos, e se voce atigir a agua,\nvoce perdera 3 pontos\n");
+    printf(" - Para atirar nos blocos do tabuleiro, voce devera digitar POW e a posicao que deseja atingir.Por exemplo,\n pow 15A atingira a bloco da linha 15, coluna A.\n");
     printf(" - Ao atirar um bloco, voce podera atingir a agua, representada pelo *, ou um elemento da armada do seu oponente.\n");
+    printf(" - Se voce atingir um porta-avioes (P), voce recebera 43 pontos; um couracado (C), voce recebera 78 pontos; um\ntorpedeiro (T), voce recebera 82 pontos; um hidroaviao (H), voce recebera 125 pontos, e se voce atigir a agua,\nvoce perdera 3 pontos\n");
     printf(" - Para ganhar o jogo, voce devera afundar todos os navios do seu oponente.\n");
     printf("-------------------------------------------------------------------------------------------------------------------\n\n");
 }                            //end regras
