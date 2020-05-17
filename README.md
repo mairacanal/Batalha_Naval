@@ -26,8 +26,9 @@ Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pront
 
 ### Autores
 
-Maíra Canal - @mairacanal
-Caroline grupe - @Carolgrupe
+<p>Maíra Canal <br/ >
+Caroline grupe
+</p>
 
 
 
