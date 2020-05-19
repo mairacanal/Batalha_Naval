@@ -15,22 +15,9 @@ USP - ICC1 - 2020
 #include <windows.h>
 #include <stdbool.h>
 #include "lib_naval.h"
+#include "constants.h"
 
 //FIM BIBLIOTECAS
-
-// MACROS
-
-#define LINHAS 17
-#define COLUNAS 17
-#define STRINGS 289
-#define NUM_CHAR 7
-#define PONTUA_P 43
-#define PONTUA_C 78
-#define PONTUA_T 82
-#define PONTUA_H 125
-#define PONTUA_ERRO -3
-
-// FIM MACROS
 
 
 // STRUCT
@@ -55,12 +42,14 @@ void menu (char* opcao, char opmenu[7][10]);
 int** alocar_tabuleiro_baixo ();
 void free_tabuleiros (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2);
 char** design_tabuleiro_alto ();
+void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2);
 jogada pow ();
 struct_relogio relogio (clock_t clock_inicial);
 void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial);
 void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial);
 void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1, clock_t clock_inicial);
 void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2, clock_t clock_inicial);
+void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo);
 // FIM DOS PRÓTOTIPOS
 
 
@@ -68,8 +57,7 @@ void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
 
 int main (){
     char opmenu [8][10] = {"RESET", "SAIR", "REGRAS", "MENU", "ACASO", "GRAVAR", "CARREGAR", "POW"};     //Declara as opções do menu
-    char opcao_dig[10];                                                                           //Opção digitada pelo usuário
-    long int tam;                                                                                //Tamanho da opção digitada pelo usuário
+    char opcao_dig[10];                                                                                  //Opção digitada pelo usuário                                                                              //Tamanho da opção digitada pelo usuário
     clock_t clock_inicial;
     bool bjogador1 = false;
     bool bjogador2 = false;
@@ -88,9 +76,9 @@ int main (){
 
     while(1){
         printf("Digite seu comando: ");
-        scanf("%s", opcao_dig);                                                       //Recebe a opção do jogador
-        tam = strlen(opcao_dig);                                                      //Determina o tamanho da string digitada pelo usuário
-        char opcao[tam + 1];                                                          //Declara uma variável que será utilizada para entrar nos laços do menu principal
+        scanf("%s", opcao_dig);                                                                    //Recebe a opção do jogador
+        unsigned int tam = strlen(opcao_dig);
+        char opcao[tam + 1];                                                                       //Declara uma variável que será utilizada para entrar nos laços do menu principal
         for (int i = 0; i <= tam; i++) opcao[i] = toupper(opcao_dig[i]);              
         
 //Para evitar possíveis erros no programa, causados pela digitação de elementos com letras maiúsculas ou minúsculas, eleva-se todos os caracteres para letra maiuscula
@@ -98,6 +86,7 @@ int main (){
 //Início de um laço condicional para executar o comando digitado pelo usuário
 //A função strcmp realiza uma comparação entra as strings do parâmetro, retornando o número 0 se elas forem iguais
 
+        // RESET  (DONE)
         if (strcmp(opcao, opmenu[0]) == 0){
             bjogador1 = true;
             clock_inicial = clock();
@@ -111,6 +100,7 @@ int main (){
             posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
         }
 
+        // SAIR    (DONE)
         else if (strcmp(opcao, opmenu[1]) == 0){
             free_tabuleiros (tabuleiro_baixo1, tabuleiro_baixo2, tabuleiro_alto1, tabuleiro_alto2);
             printf ("------------------------------------------- Ate a proxima partida! --------------------------------------------\n");
@@ -121,25 +111,36 @@ int main (){
             printf ("|                              Agradecimentos especiais ao professor Jo Ueyama                                |\n");
             printf ("|                                                   2020                                                      |\n");
             printf ("---------------------------------------------------------------------------------------------------------------\n");
+            Sleep(2000);
             return 0;
         }
 
+        // REGRAS (DONE)
         else if (strcmp(opcao, opmenu[2]) == 0) regras();                          //Exibe as regras pro usuário
 
+        // MENU   (DONE)
         else if (strcmp(opcao, opmenu[3]) == 0) printar_menu();                    //Exibe o menu pro usuário
 
+        // ACASO  (DONE)
         else if (strcmp(opcao, opmenu[4]) == 0){
+            zerar_tabuleiros_baixos (tabuleiro_baixo1, tabuleiro_baixo2);
             posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
+
+            tabuleiro_alto1 = design_tabuleiro_alto();
+            tabuleiro_alto2 = design_tabuleiro_alto();
         }
 
+        // GRAVAR
         else if (strcmp(opcao, opmenu[5]) == 0){
-
+            gravar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, pontuacao_j1, pontuacao_j2, j1, j2, relogio(clock_inicial));
         }
 
+        // CARREGAR
         else if (strcmp(opcao, opmenu[6]) == 0){
 
         }
 
+        // POW    (DONE)
         else if (strcmp(opcao, opmenu[7]) == 0){
             if (bjogador1 == true){
                 func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1, clock_inicial);
@@ -150,6 +151,9 @@ int main (){
                 func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, &pontuacao_j2, &j2, clock_inicial);
                 bjogador1 = true;
                 bjogador2 = false;
+            }
+            else{
+                printf("Inicie uma partida digitando RESET.");
             }
         }
 
@@ -169,6 +173,7 @@ int main (){
 
 
 // AUX FUNCTIONS
+
 void regras (){              //Função auxiliar para chamar as regras do jogo
     printf("-------------------------------------------------- REGRAS -----------------------------------------------------\n");
     printf("- A armada completa sera composta por um porta-avioes (P) com 11 blocos, dois couracados (C) com 10 blocos,\ntres torpedeiros (T) com 7 blocos e quadro hidroavioes (H) com 8 blocos.\n");
@@ -190,7 +195,7 @@ void printar_menu (){                //Função auxiliar para chamar o menu do j
     printf("|ACASO - Iniciar um novo tabuleiro aleatorio, mas conserva seus pontos e o tempo no relogio.                  |\n");
     printf("|GRAVAR - Salvar o jogo em um arquivo com o nome tabuleiro-{timestamp}.txt.                                   |\n");
     printf("|CARREGAR {nome do arquivo} - Carregar o jogo que foi salvo.                                                  |\n");
-    printf("|POW - Atirar em um bloco                                                                                     |\n");
+    printf("|POW {posicao} - Atirar em um bloco                                                                                     |\n");
     printf("---------------------------------------------------------------------------------------------------------------\n\n");
 }                            //end menu
 
@@ -268,6 +273,15 @@ char** design_tabuleiro_alto (){
     }
 
     return (tabuleiro_alto);
+}
+
+void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
+    for (int i = 0; i < LINHAS; i++){
+        for (int j = 0; j < COLUNAS; j++){
+            tabuleiro_baixo1[i][j] = 0;
+            tabuleiro_baixo2[i][j] = 0;
+        }
+    }
 }
 
 jogada pow (){
@@ -483,5 +497,29 @@ void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
     }
 
     Sleep(2000);
+}
+
+void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo){
+    char name[50];
+    sprintf(name, "tabuleiro - %lu.txt", time(NULL));
+
+    FILE* arquivo = fopen(name, "w");
+    fprintf(arquivo, "%lu:%lu:%lu\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+    fprintf(arquivo, "%d %d\n", pontuacao_j1, j1);
+    fprintf(arquivo, "%d %d\n", pontuacao_j2, j2);
+
+    for (int i = 0; i < LINHAS; i++){
+        for (int j = 0; j < COLUNAS; j++){
+            if (j == (COLUNAS - 1)) fprintf(arquivo, "%d\n", tabuleiro_baixo1[i][j]);
+            else fprintf(arquivo, "%d ", tabuleiro_baixo1[i][j]);
+        }
+    }
+    for (int i = 0; i < LINHAS; i++){
+        for (int j = 0; j < COLUNAS; j++){
+            if (j == (COLUNAS - 1)) fprintf(arquivo, "%d\n", tabuleiro_baixo2[i][j]);
+            else fprintf(arquivo, "%d ", tabuleiro_baixo2[i][j]);
+        }
+    }
+    fclose(arquivo);
 }
 // END AUX
