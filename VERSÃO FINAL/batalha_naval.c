@@ -130,7 +130,7 @@ int main (){
             tabuleiro_alto2 = design_tabuleiro_alto();
         }
 
-        // GRAVAR
+        // GRAVAR 
         else if (strcmp(opcao, opmenu[5]) == 0){
             gravar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, pontuacao_j1, pontuacao_j2, j1, j2, relogio(clock_inicial));
         }
