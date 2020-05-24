@@ -24,6 +24,28 @@ Para o correto funcionamento do jogo é necessário que o usuário crie um diret
 
 Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pronto para ser executado, basta entrar no código principal e clicar F6.
 
+### Documentação 
+
+- ```void regas()```     
+Argumentos: não há argumentos  
+Objetivo: Imprimir na tela do usuário as regras  
+Retorno: não há retorno  
+
+- ```void printar_menu()```     
+Argumentos: não há argumentos    
+Objetivo: Imprimir na tela do usuário o menu    
+Retorno: não há retorno   
+
+- ```int** alocar_tabuleiro_baixo()```    
+Argumentos: não há argumentos    
+Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), a essa matriz foi dado o nome de tabuleiro_baixo  
+Retorno: retorna o tabuleiro_baixo
+
+- ```void free_tabuleiros(int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2)```    
+Argumentos: EU PAREI AQUIIIIIIIIIIIIIII  
+Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados, a essa matriz foi dado o nome de tabuleiro_baixo  
+Retorno: retorna o tabuleiro_baixo
+
 ### Autores
 
 Maíra Canal - @mairacanal  
