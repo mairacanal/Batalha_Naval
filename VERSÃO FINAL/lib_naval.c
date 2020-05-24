@@ -5,10 +5,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define NUM_COURACADOS 2               // Número de couraçados (2)
-#define NUM_TORPEDEIROS 3              // Número de torpedeiros (3)
-#define NUM_HIDROAVIOES 4              // Número de hidroaviões (4)
-
 // FUNÇÕES PRIVADAS (utilizadas para auxiliar na construção do código) --------------------
 
 void portaavioes (int** tabuleiro_baixo){
