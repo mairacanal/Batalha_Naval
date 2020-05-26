@@ -44,12 +44,13 @@ void free_tabuleiros (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tab
 char** design_tabuleiro_alto ();
 void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2);
 jogada pow ();
-struct_relogio relogio (clock_t clock_inicial);
-void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial);
-void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial);
-void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1, clock_t clock_inicial);
-void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2, clock_t clock_inicial);
-void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo);
+struct_relogio relogio (clock_t clock_inicial, struct_relogio addition);
+void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition);
+void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition);
+void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1);
+void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2);
+void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo);
+struct_relogio carregar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2);
 // FIM DOS PRÓTOTIPOS
 
 
@@ -57,13 +58,18 @@ void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_
 
 int main (){
     char opmenu [8][10] = {"RESET", "SAIR", "REGRAS", "MENU", "ACASO", "GRAVAR", "CARREGAR", "POW"};     //Declara as opções do menu
-    char opcao_dig[10];                                                                                  //Opção digitada pelo usuário                                                                              //Tamanho da opção digitada pelo usuário
+    char opcao_dig[10];                                                                                  //Opção digitada pelo usuário                                                                              
     clock_t clock_inicial;
     bool bjogador1 = false;
     bool bjogador2 = false;
     int j1, j2;
     int pontuacao_j1;
     int pontuacao_j2;
+    
+    struct_relogio addition;
+    addition.horas = 0;
+    addition.minutos = 0;
+    addition.segundos = 0;
 
     int** tabuleiro_baixo1 = alocar_tabuleiro_baixo();
     int** tabuleiro_baixo2 = alocar_tabuleiro_baixo();
@@ -130,25 +136,25 @@ int main (){
             tabuleiro_alto2 = design_tabuleiro_alto();
         }
 
-        // GRAVAR 
+        // GRAVAR (DONE)
         else if (strcmp(opcao, opmenu[5]) == 0){
-            gravar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, pontuacao_j1, pontuacao_j2, j1, j2, relogio(clock_inicial));
+            gravar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, tabuleiro_alto1, tabuleiro_alto2, pontuacao_j1, pontuacao_j2, j1, j2, relogio(clock_inicial, addition));
         }
 
         // CARREGAR
         else if (strcmp(opcao, opmenu[6]) == 0){
-
+            addition = carregar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, tabuleiro_alto1, tabuleiro_alto2, &pontuacao_j1, &pontuacao_j2, &j1, &j2);
         }
 
         // POW    (DONE)
         else if (strcmp(opcao, opmenu[7]) == 0){
             if (bjogador1 == true){
-                func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1, clock_inicial);
+                func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1);
                 bjogador1 = false;
                 bjogador2 = true;
             }
             else if (bjogador2 == true){
-                func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, &pontuacao_j2, &j2, clock_inicial);
+                func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, &pontuacao_j2, &j2);
                 bjogador1 = true;
                 bjogador2 = false;
             }
@@ -160,10 +166,10 @@ int main (){
         else printf("ERRO! Opcao invalida. Tente novamente!\n");            //Caso o usuário tenha digitado qualquer palavra diferente da indicada no menu, será demonstrada essa mensagem de erro
 
         if (bjogador1 == true){
-            printar_jogador1(tabuleiro_alto2, &pontuacao_j1, clock_inicial);
+            printar_jogador1(tabuleiro_alto2, &pontuacao_j1, clock_inicial, addition);
         }
         else if (bjogador2 == true){
-            printar_jogador2(tabuleiro_alto1, &pontuacao_j2, clock_inicial);
+            printar_jogador2(tabuleiro_alto1, &pontuacao_j2, clock_inicial, addition);
         }
     }
     return 0;
@@ -358,12 +364,12 @@ jogada pow (){
     }
 }
 
-struct_relogio relogio (clock_t clock_inicial){
+struct_relogio relogio (clock_t clock_inicial, struct_relogio addition){
     struct_relogio relogio;
     
-    relogio.minutos = 0;
-    relogio.horas = 0;
-    relogio.segundos = (clock() - clock_inicial)/CLOCKS_PER_SEC;
+    relogio.minutos = addition.minutos;
+    relogio.horas = addition.horas;
+    relogio.segundos = ((clock() - clock_inicial)/CLOCKS_PER_SEC) + addition.segundos;
 
     while (relogio.segundos > 60){
         relogio.minutos++;
@@ -378,23 +384,23 @@ struct_relogio relogio (clock_t clock_inicial){
     return relogio;
 }
 
-void printar_jogador1 (char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial){
-    struct_relogio tempo_jogo = relogio(clock_inicial);
+void printar_jogador1 (char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition){
+    struct_relogio tempo_jogo = relogio(clock_inicial, addition);
 
     printf("------------------------------ JOGADOR 1 -----------------------------\n\n");
     printf("%02lu: %02lu: %02lu                               Pontuacao: %d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos, *pontuacao_j1);
     printar_tabuleiro(tabuleiro_alto2);
 }
 
-void printar_jogador2 (char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial){
-    struct_relogio tempo_jogo = relogio(clock_inicial);
+void printar_jogador2 (char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition){
+    struct_relogio tempo_jogo = relogio(clock_inicial, addition);
 
     printf("------------------------------ JOGADOR 2 -----------------------------\n\n");
     printf("%02lu: %02lu: %02lu                               Pontuacao: %d\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos, *pontuacao_j2);
     printar_tabuleiro(tabuleiro_alto1);
 }
 
-void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1, clock_t clock_inicial){
+void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1){
     
     int posicao_array;
     jogada jogador1;
@@ -412,29 +418,29 @@ void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuaca
             tabuleiro_alto2 [posicao_array] = "P2 |";
             tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
             *pontuacao_j1 = *pontuacao_j1 + PONTUA_P;
-            *j1++;
+            *j1 = *j1 + 1;
             break;
         case 3:
             tabuleiro_alto2 [posicao_array] = "C2 |";
             tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
             *pontuacao_j1 = *pontuacao_j1 + PONTUA_C;
-            *j1++;
+            *j1 = *j1 + 1;
             break;
         case 4:
             tabuleiro_alto2 [posicao_array] = "T2 |";
             tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
             *pontuacao_j1 = *pontuacao_j1 + PONTUA_T;
-            *j1++;
+            *j1 = *j1 + 1;
             break;
         case 5:
             tabuleiro_alto2 [posicao_array] = "H2 |";
             tabuleiro_baixo2[jogador1.linha][jogador1.coluna] = 6;
             *pontuacao_j1 = *pontuacao_j1 + PONTUA_H;
-            *j1++;
+            *j1 = *j1 + 1;
             break;
         case 6:
             printf("Voce ja atirou nesse local! Tente novamente!\n");
-            func_jogador1(tabuleiro_baixo2, tabuleiro_alto2, pontuacao_j1, j1, clock_inicial);
+            func_jogador1(tabuleiro_baixo2, tabuleiro_alto2, pontuacao_j1, j1);
         }
 
     printar_tabuleiro(tabuleiro_alto2);
@@ -447,7 +453,7 @@ void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuaca
     Sleep(2000);
 }
 
-void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2, clock_t clock_inicial){
+void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2){
     int posicao_array;
     jogada jogador2;
 
@@ -464,29 +470,29 @@ void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
             tabuleiro_alto1 [posicao_array] = "P1 |";
             tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
             *pontuacao_j2 = *pontuacao_j2 + PONTUA_P;
-            *j2++;
+            *j2 = *j2 + 1;
             break;
         case 3:
             tabuleiro_alto1 [posicao_array] = "C1 |";
             tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
             *pontuacao_j2 = *pontuacao_j2 + PONTUA_C;
-            *j2++;        
+            *j2 = *j2 + 1;       
             break;
         case 4:
             tabuleiro_alto1 [posicao_array] = "T1 |";
             tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
             *pontuacao_j2 = *pontuacao_j2 + PONTUA_T;
-            *j2++;
+            *j2 = *j2 + 1;
             break;
         case 5:
             tabuleiro_alto1 [posicao_array] = "H1 |";
             tabuleiro_baixo1[jogador2.linha][jogador2.coluna] = 6;
             *pontuacao_j2 = *pontuacao_j2 + PONTUA_H;
-            *j2++;
+            *j2 = *j2 + 1;
             break;
         case 6:
             printf("Voce ja atirou nesse local! Tente novamente!\n");
-            func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, pontuacao_j2, j2, clock_inicial);
+            func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, pontuacao_j2, j2);
         }
 
     printar_tabuleiro(tabuleiro_alto1);
@@ -499,9 +505,10 @@ void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
     Sleep(2000);
 }
 
-void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo){
+void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo){
     char name[50];
-    sprintf(name, "tabuleiro - %lu.txt", time(NULL));
+    int c = 0;
+    sprintf(name, "tabuleiro%lu.txt", time(NULL));
 
     FILE* arquivo = fopen(name, "w");
     fprintf(arquivo, "%lu:%lu:%lu\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
@@ -520,6 +527,88 @@ void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_
             else fprintf(arquivo, "%d ", tabuleiro_baixo2[i][j]);
         }
     }
+
+    for(int i = 0; i < STRINGS; i++){
+        c++;
+        if (c == 17){
+            c = 0;
+            fprintf(arquivo, "%s\n", tabuleiro_alto1[i]);
+        }
+        else {
+            fprintf(arquivo, "%s", tabuleiro_alto1[i]);
+        }
+    }
+
+    c = 0;
+    for(int i = 0; i < STRINGS; i++){
+        c++;
+        if (c == 17){
+            c = 0;
+            fprintf(arquivo, "%s\n", tabuleiro_alto2[i]);
+        }
+        else {
+            fprintf(arquivo, "%s", tabuleiro_alto2[i]);
+        }
+    }
+
     fclose(arquivo);
 }
+
+struct_relogio carregar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2){
+    char* file_name;
+    int c = 0;
+    struct_relogio tempo_jogo;
+    scanf("%s", file_name);
+
+    FILE* arquivo = fopen(file_name, "r");
+
+    if (!arquivo){
+        printf("ERRO na abertura do arquivo.\n");
+    }
+    else{
+        fscanf(arquivo, "%lu:%lu:%lu\n", tempo_jogo.horas, tempo_jogo.minutos, tempo_jogo.segundos);
+        fscanf(arquivo, "%d %d\n", *pontuacao_j1, *j1);
+        fscanf(arquivo, "%d %d\n", *pontuacao_j2, *j2);
+
+        for (int i = 0; i < LINHAS; i++){
+            for (int j = 0; j < COLUNAS; j++){
+                if (j == (COLUNAS - 1)) fprintf(arquivo, "%d\n", tabuleiro_baixo1[i][j]);
+                else fscanf(arquivo, "%d ", tabuleiro_baixo1[i][j]);
+            }
+        }
+        for (int i = 0; i < LINHAS; i++){
+            for (int j = 0; j < COLUNAS; j++){
+                if (j == (COLUNAS - 1)) fprintf(arquivo, "%d\n", tabuleiro_baixo2[i][j]);
+                else fscanf(arquivo, "%d ", tabuleiro_baixo2[i][j]);
+            }
+        }
+
+        for(int i = 0; i < STRINGS; i++){
+            c++;
+            if (c == 17){
+                c = 0;
+                fscanf(arquivo, "%s\n", tabuleiro_alto1[i]);
+            }
+            else {
+                fscanf(arquivo, "%s", tabuleiro_alto1[i]);
+            }
+        }
+
+        c = 0;
+        for(int i = 0; i < STRINGS; i++){
+            c++;
+            if (c == 17){
+                c = 0;
+                fscanf(arquivo, "%s\n", tabuleiro_alto2[i]);
+            }
+            else {
+                fscanf(arquivo, "%s", tabuleiro_alto2[i]);
+            }
+        }
+
+        fclose(arquivo);
+        return tempo_jogo;
+    }
+}
+
 // END AUX
