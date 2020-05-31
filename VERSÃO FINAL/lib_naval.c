@@ -114,7 +114,7 @@ Cabeçalho: void hidroavioes (int**)
 Argumentos: recebe como argumento o tabuleiro "back-end" do jogador
 
 Objetivo: Posicionar o hidroavião no tabuleiro do jogador. No tabuleiro "back-end", o hidroavião é representado
-pelo número  ("cinco"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
+pelo número 5 ("cinco"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
 para o hidroavião, de forma a possibilitar o posicionamento da embarcação.
 */
 
