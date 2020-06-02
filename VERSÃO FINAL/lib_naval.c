@@ -124,25 +124,39 @@ para o hidroavião, de forma a possibilitar o posicionamento da embarcação.
 
 void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
 
-    //Posicionamento dos porta-aviões(P) no tabuleiro do jogador 1 e 2
+    //Posicionamento dos porta-aviões(P) no tabuleiro do jogador 1
     portaavioes (tabuleiro_baixo1);
-    portaavioes (tabuleiro_baixo2);
 
-    //Posicionamento dos couraçados (C) no tabuleiro do jogador 1 e 2
+    //Posicionamento dos couraçados (C) no tabuleiro do jogador 1
     for (int i = 1; i <= NUM_COURACADOS; i++){
         couracados(tabuleiro_baixo1);
+    }
+
+    //Posicionamento dos torpedeiros (T) no tabuleiro do jogador 1
+    for (int i = 1; i <= NUM_TORPEDEIROS; i++){
+        torpedeiros(tabuleiro_baixo1);
+    }
+
+    //Posicionamento dos hidroaviões (H) no tabuleiro do jogador 1
+    for (int i = 1; i <= NUM_HIDROAVIOES; i++){
+        hidroavioes(tabuleiro_baixo1);
+    }
+
+    //Posicionamento dos porta-aviões(P) no tabuleiro do jogador 2
+    portaavioes (tabuleiro_baixo2);
+
+    //Posicionamento dos couraçados (C) no tabuleiro do jogador 2
+    for (int i = 1; i <= NUM_COURACADOS; i++){
         couracados(tabuleiro_baixo2);
     }
 
-    //Posicionamento dos torpedeiros (T) no tabuleiro do jogador 1 e 2
+    //Posicionamento dos torpedeiros (T) no tabuleiro do jogador 2
     for (int i = 1; i <= NUM_TORPEDEIROS; i++){
-        torpedeiros(tabuleiro_baixo1);
         torpedeiros(tabuleiro_baixo2);
     }
 
-    //Posicionamento dos hidroaviões (H) no tabuleiro do jogador 1 e 2
+    //Posicionamento dos hidroaviões (H) no tabuleiro do jogador 2
     for (int i = 1; i <= NUM_HIDROAVIOES; i++){
-        hidroavioes(tabuleiro_baixo1);
         hidroavioes(tabuleiro_baixo2);
     }
 }
@@ -160,4 +174,5 @@ void printar_tabuleiro (char **tabuleiro_alto){
         }
     }
 }
+
 // FIM FUNÇÕES PÚBLICAS -------------------------------------------------------------------

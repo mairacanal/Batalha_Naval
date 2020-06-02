@@ -38,7 +38,6 @@ typedef struct {
 // PRÓTOTIPOS
 void regras ();
 void printar_menu ();
-void menu (char* opcao, char opmenu[7][10]);
 int** alocar_tabuleiro_baixo ();
 void free_tabuleiros (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2);
 void lateral_tabuleiro_alto (char** tabuleiro_alto);
@@ -48,11 +47,12 @@ jogada pow ();
 struct_relogio relogio (clock_t clock_inicial, struct_relogio addition);
 void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition);
 void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition);
-void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1);
-void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2);
+bool func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1);
+bool func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2);
 void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo);
 struct_relogio carregar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2);
 void redesign_tabuleiro_alto (int** tabuleiro_baixo, char** tabuleiro_alto, int n);
+void resetar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char** tabuleiro_alto1, char** tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2);
 // FIM DOS PRÓTOTIPOS
 
 
@@ -60,14 +60,16 @@ void redesign_tabuleiro_alto (int** tabuleiro_baixo, char** tabuleiro_alto, int 
 
 int main (){
     char opmenu [8][10] = {"RESET", "SAIR", "REGRAS", "MENU", "ACASO", "GRAVAR", "CARREGAR", "POW"};     //Declara as opções do menu
-    char opcao_dig[10];                                                                                  //Opção digitada pelo usuário                                                                              
-    clock_t clock_inicial;
+    char opcao_dig[10];                                                                                  //Opção digitada pelo usuário  
+
     bool bjogador1 = false;
     bool bjogador2 = false;
+    bool win = false;
     int j1, j2;
     int pontuacao_j1;
     int pontuacao_j2;
     
+    clock_t clock_inicial;
     struct_relogio addition;
     addition.horas = 0;
     addition.minutos = 0;
@@ -148,12 +150,12 @@ int main (){
 
         else if (strcmp(opcao, opmenu[7]) == 0){
             if (bjogador1 == true){
-                func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1);
+                win = func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1);
                 bjogador1 = false;
                 bjogador2 = true;
             }
             else if (bjogador2 == true){
-                func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, &pontuacao_j2, &j2);
+                win = func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, &pontuacao_j2, &j2);
                 bjogador1 = true;
                 bjogador2 = false;
             }
@@ -170,6 +172,16 @@ int main (){
         else if (bjogador2 == true){
             printar_jogador2(tabuleiro_alto1, &pontuacao_j2, clock_inicial, addition);
         }
+
+        if (win == true){
+            resetar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, tabuleiro_alto1, tabuleiro_alto2, &pontuacao_j1, &pontuacao_j2, &j1, &j2);
+            bjogador1 = false;
+            bjogador2 = false;
+            win = false;
+
+            print("\n\n");
+            printar_menu();
+        }
     }
     return 0;
 }
@@ -179,7 +191,7 @@ int main (){
 
 // AUX FUNCTIONS
 
-void regras (){              //Função auxiliar para chamar as regras do jogo
+void regras (){              
     printf("-------------------------------------------------- REGRAS -----------------------------------------------------\n");
     printf("- A armada completa sera composta por um porta-avioes (P) com 11 blocos, dois couracados (C) com 10 blocos,\ntres torpedeiros (T) com 7 blocos e quadro hidroavioes (H) com 8 blocos.\n");
     printf("- A sua armada sera posicionada aleatoriamente no seu campo de batalha.\n");
@@ -190,7 +202,7 @@ void regras (){              //Função auxiliar para chamar as regras do jogo
     printf("---------------------------------------------------------------------------------------------------------------\n\n");
 }                            //end regras
 
-void printar_menu (){                //Função auxiliar para chamar o menu do jogo
+void printar_menu (){                
     printf("--------------------------------------------------- MENU ------------------------------------------------------\n");
     printf("|Digite:                                                                                                      |\n");
     printf("|RESET - Iniciar uma nova partida.                                                                            |\n");
@@ -200,7 +212,7 @@ void printar_menu (){                //Função auxiliar para chamar o menu do j
     printf("|ACASO - Iniciar um novo tabuleiro aleatorio, mas conserva seus pontos e o tempo no relogio.                  |\n");
     printf("|GRAVAR - Salvar o jogo em um arquivo com o nome tabuleiro-{timestamp}.txt.                                   |\n");
     printf("|CARREGAR {nome do arquivo} - Carregar o jogo que foi salvo.                                                  |\n");
-    printf("|POW {posicao} - Atirar em um bloco                                                                                     |\n");
+    printf("|POW {posicao} - Atirar em um bloco                                                                           |\n");
     printf("---------------------------------------------------------------------------------------------------------------\n\n");
 }                            //end menu
 
@@ -229,6 +241,7 @@ void free_tabuleiros (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tab
 }
 
 void lateral_tabuleiro_alto (char** tabuleiro_alto){
+
     tabuleiro_alto[0] = "|    |";
     tabuleiro_alto[1] = " A |";
     tabuleiro_alto[2] = " B |";
@@ -262,6 +275,7 @@ void lateral_tabuleiro_alto (char** tabuleiro_alto){
     tabuleiro_alto[238] = "| 14 |";
     tabuleiro_alto[255] = "| 15 |";
     tabuleiro_alto[272] = "| 16 |";
+    
 }
 
 char** design_tabuleiro_alto (){
@@ -296,6 +310,7 @@ void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2){
 
 jogada pow (){
     jogada coordenadas;
+    char pow_in[4];
 
     char coordenadas_ins[4], letra;
 
@@ -303,7 +318,8 @@ jogada pow (){
 
     coordenadas.linha = atoi(coordenadas_ins);
     if (coordenadas.linha <= 0 || coordenadas.linha > 16){
-        printf("ERRO! Posicao Invalida!");
+        printf("ERRO! Posicao Invalida!\n");
+        scanf("%s", pow_in);
         pow();
     }
 
@@ -361,6 +377,7 @@ jogada pow (){
                 break;
             default:
                 printf("ERRO! Essa posicao nao existe!");
+                scanf("%s", pow_in);
                 pow();
             }
 
@@ -404,7 +421,7 @@ void printar_jogador2 (char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_
     printar_tabuleiro(tabuleiro_alto1);
 }
 
-void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1){
+bool func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1){
     
     int posicao_array;
     jogada jogador1;
@@ -452,12 +469,16 @@ void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuaca
 
     if (*j1 == 84){
         printf("Parabens JOGADOR 1. Voce venceu!\n");
+        Sleep(2000);
+        return true;
     }
-
-    Sleep(2000);
+    else{
+        Sleep(2000);
+        return false;
+    }
 }
 
-void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2){
+bool func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2){
     int posicao_array;
     jogada jogador2;
 
@@ -504,9 +525,13 @@ void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
 
     if (*j2 == 84){
         printf("Parabens JOGADOR 2. Voce venceu!\n");
+        Sleep(2000);
+        return true;
     }
-
-    Sleep(2000);
+    else{
+        Sleep(2000);
+        return false;
+    }
 }
 
 void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo){
@@ -624,4 +649,26 @@ void redesign_tabuleiro_alto (int** tabuleiro_baixo, char** tabuleiro_alto, int 
     lateral_tabuleiro_alto(tabuleiro_alto);
 }
 
+void resetar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char** tabuleiro_alto1, char** tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2){
+    int c = 17;
+    
+    zerar_tabuleiros_baixos(tabuleiro_baixo1, tabuleiro_baixo2);
+
+    lateral_tabuleiro_alto(tabuleiro_alto1);
+    lateral_tabuleiro_alto(tabuleiro_alto2);
+
+    for (int i = 17; i < STRINGS; i++){
+        if (c == 17) c = 0;
+        else {
+            tabuleiro_alto1[i] = "   |";
+            tabuleiro_alto2[i] = "   |";
+        }
+        c++;
+    }
+
+    j1 = 0;
+    j2 = 0;
+    pontuacao_j1 = 0;
+    pontuacao_j2 = 0;
+}
 // END AUX
