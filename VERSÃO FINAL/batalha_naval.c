@@ -36,7 +36,7 @@ typedef struct {
 
 
 // PRÓTOTIPOS
-void regras ();
+void printar_regras ();
 void printar_menu ();
 int** alocar_tabuleiro_baixo ();
 void free_tabuleiros (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2);
@@ -96,7 +96,7 @@ int main (){
 //Início de um laço condicional para executar o comando digitado pelo usuário
 //A função strcmp realiza uma comparação entra as strings do parâmetro, retornando o número 0 se elas forem iguais
 
-        // RESET  (DONE)
+        // RESET  
         if (strcmp(opcao, opmenu[0]) == 0){
             bjogador1 = true;
             clock_inicial = clock();
@@ -109,7 +109,7 @@ int main (){
 
             posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
         }
-
+        //SAIR
         else if (strcmp(opcao, opmenu[1]) == 0){
             free_tabuleiros (tabuleiro_baixo1, tabuleiro_baixo2, tabuleiro_alto1, tabuleiro_alto2);
             printf ("------------------------------------------- Ate a proxima partida! --------------------------------------------\n");
@@ -123,11 +123,11 @@ int main (){
             Sleep(2000);
             return 0;
         }
-
-        else if (strcmp(opcao, opmenu[2]) == 0) regras();                          //Exibe as regras pro usuário
-
+        //REGRAS
+        else if (strcmp(opcao, opmenu[2]) == 0) printar_regras();                          //Exibe as regras pro usuário
+        //MENU
         else if (strcmp(opcao, opmenu[3]) == 0) printar_menu();                    //Exibe o menu pro usuário
-
+        //ACASO
         else if (strcmp(opcao, opmenu[4]) == 0){
             zerar_tabuleiros_baixos (tabuleiro_baixo1, tabuleiro_baixo2);
             posicionar_armada(tabuleiro_baixo1, tabuleiro_baixo2);
@@ -135,11 +135,11 @@ int main (){
             tabuleiro_alto1 = design_tabuleiro_alto();
             tabuleiro_alto2 = design_tabuleiro_alto();
         }
-
+        //GRAVAR
         else if (strcmp(opcao, opmenu[5]) == 0){
             gravar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, pontuacao_j1, pontuacao_j2, j1, j2, relogio(clock_inicial, addition));
         }
-
+        //CARREGAR
         else if (strcmp(opcao, opmenu[6]) == 0){
             addition = carregar_jogo (tabuleiro_baixo1, tabuleiro_baixo2, &pontuacao_j1, &pontuacao_j2, &j1, &j2);
             redesign_tabuleiro_alto(tabuleiro_baixo1, tabuleiro_alto1, 1);
@@ -147,7 +147,7 @@ int main (){
             bjogador1 = true;
             bjogador2 = false;
         }
-
+        //POW
         else if (strcmp(opcao, opmenu[7]) == 0){
             if (bjogador1 == true){
                 win = func_jogador1 (tabuleiro_baixo2, tabuleiro_alto2, &pontuacao_j1, &j1);
@@ -191,7 +191,7 @@ int main (){
 
 // AUX FUNCTIONS
 
-void regras (){              
+void printar_regras (){              
     printf("-------------------------------------------------- REGRAS -----------------------------------------------------\n");
     printf("- A armada completa sera composta por um porta-avioes (P) com 11 blocos, dois couracados (C) com 10 blocos,\ntres torpedeiros (T) com 7 blocos e quadro hidroavioes (H) com 8 blocos.\n");
     printf("- A sua armada sera posicionada aleatoriamente no seu campo de batalha.\n");
