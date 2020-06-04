@@ -28,127 +28,131 @@ Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pront
 
 #### Funções auxiliares:
 
-- ```void regas()```     
-Argumentos: não há argumentos  
-Objetivo: Imprimir na tela do usuário as regras  
-Retorno: não há retorno  
+- ```void printar_regas()```     
+Argumentos: Não há argumentos.  
+Objetivo: Imprimir na tela do usuário as regras.  
+Retorno: Não há retorno.  
 
 - ```void printar_menu()```     
-Argumentos: não há argumentos    
-Objetivo: Imprimir na tela do usuário o menu    
-Retorno: não há retorno   
+Argumentos: Não há argumentos.    
+Objetivo: Imprimir na tela do usuário o menu.    
+Retorno: Não há retorno.   
 
 - ```int** alocar_tabuleiro_baixo()```    
-Argumentos: não há argumentos    
-Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), a essa matriz foi dado o nome de tabuleiro_baixo  
-Retorno: retorna o tabuleiro_baixo
+Argumentos: não há argumentos.    
+Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), a essa matriz foi dado o nome de tabuleiro_baixo (referente ao tabuleiro "back-end").  
+Retorno: Retorna o tabuleiro_baixo.  
 
-- ```void free_tabuleiros(int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2)```    
-Argumentos: EU PAREI AQUIIIIIIIIIIIIIII  
-Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados, a essa matriz foi dado o nome de tabuleiro_baixo  
-Retorno: retorna o tabuleiro_baixo
+- ```void lateral_tabuleiro_alto (char** tabuleiro_alto)```  
+Argumentos: Vetor de strings chamado de tabuleiro_alto (referente ao tabuleiro "front-end").  
+Objetivo: Definir as strings em cada elemneto do vetor determinadas pela primeira linha (que contém as letras de A a P) e pela primeira coluna (que contém os números de 1 a 16) do tabuleiro de cada jogador da batalha naval.    
+Retorno: Não há retorno.  
 
-- ```char** design_tabuleiro_alto()```  
-Argumentos:   
-Objetivo:    
-Retorno:   
+- ```char** design_tabuleiro_alto ()```   
+Argumentos: Não há argumentos.        
+Objetivo: Alocar memória para um vetor de strings com 289 strings (17x17) que será chamado de "tabuleiro_alto" e preenchê-lo com o design escolhido para o tabuleiro.         
+Retorno: Retorna o tabuleiro_alto.  
 
-- ```void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2)```    
-Argumentos:     
-Objetivo:      
-Retorno:     
+- ```void free_tabuleiros(int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2)```       
+Argumentos: As duas matrizes 17x17 criadas e alocadas,"tabuleiro_baixo" e os dois vetores de string criados e alocados, "tabuleiro_alto".    
+Objetivo: Desalocar a memória de cada uma dessas matrizes.    
+Retorno: Não há retorno.    
 
- - ```jogada pow()```    
-Argumentos:     
-Objetivo:    
-Retorno:   
+- ```void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2)```        
+Argumentos: As duas matrizes 17x17 do jogador 1 e 2.    
+Objetivo: Colocar 0 em todos os espaços alocados para essas matrizes.           
+Retorno: Não há retorno.           
 
-- ```struct_relogio relogio(clock_t clock_inicial, struct_relogio addition)```
-Argumentos:   
-Objetivo:    
-Retorno:   
+ - ```jogada pow()```      
+Argumentos: Não há argumentos.     
+Objetivo: Utilizar a struct "jogada" e a função "atoi" para salvar a linha e a coluna escolhida pelo usuário como números inteiros.    
+Retorno: A struct cordenadas contendo os valores da linha e da coluna que o usuário escolheu para atingir.   
 
- - ```void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition)```  
-Argumentos:   
-Objetivo:    
-Retorno:   
+- ```struct_relogio relogio(clock_t clock_inicial, struct_relogio addition)```  
+Argumentos: variável que armazena o tempo da função clock(), a qual foi chmada no começo da função principal e a struct "struct_relogio" como "addition", que teve suas variáveis todas zeradas no começo da função principal.  
+Objetivo: Utilizar a struct "relogio" para guardar os valores dos segundos, minutos e horas no momento em que a função é chamada.     
+Retorno: Retorna a struct relogio com o valor de segundos, minutos e horas.     
 
-- ```void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition);```
-Argumentos: 
-Objetivo:  
-Retorno: 
+ - ```void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition)```    
+Argumentos: Vetor de strings do jogador 2, pontuação do jogador 1, variável que armazena o tempo da função clock(), a qual foi chamada no começo da função principal e a struct "struct_relogio".   
+Objetivo: Essa função imprime a tela do jogador 1 , portanto tem o "tabuleiro_alto2", a pontuação do jogador 1 e o tempo de jogo nesse momento. O "tabuleiro_alto2"é impresso com a função "printar_tabuleiro" definida na biblioteca "lib_naval.h".  
+Retorno: Não há retorno.  
 
-- ```void func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1)```
-Argumentos: 
-Objetivo:  
-Retorno: 
+- ```void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition)```  
+Argumentos: Vetor de strings do jogador 1, pontuação do jogador 2, variável que armazena o tempo da função clock(), a qual foi chamada no começo da função principal e a struct "struct_relogio".  
+Objetivo: Essa função imprime a tela do jogador 2, portanto deve ter o "tabuleiro_alto1", a pontuação do jogador 2 e o tempo de jogo nesse momento. O "tabuleiro_alto1" é impresso com a função "printar_tabuleiro" definida na biblioteca "lib_naval.h".  
+Retorno: Não há retorno.  
 
-- ```void func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2)```
-Argumentos: 
-Objetivo:  
-Retorno: 
+- ```bool func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1)```  
+Argumentos: Matriz 17x17 do jogador 2, vetor de strings do jogador 2, variável (ponteiro para passagem por referência) que armazena o valor ganhado ou perdido a cada ataque, variável (ponteiro para passagem por referência) para iterações.  
+Objetivo: Calcular a pontuação do jogador 1. A pontuação "pontuacao_j1" varia a cada jogada. Ela recebe um valor específico dependedno da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j1" aumenta cada vez que o jogador acerta o ataque em alguma peça.   
+Retorno: Retorna "true" se o valor da variável "j1" do jogador 1 chegar a 84 e "false" se não.  
 
-- ```void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo)```
-Argumentos: 
-Objetivo:  
-Retorno: 
+- ```bool func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2)```  
+Argumentos: Matriz 17x17 do jogador 1, vetor de strings do jogador 1, variável (ponteiro para passagem por referência) que armazena o valor ganhado ou perdido a cada ataque, variável (ponteiro para passagem por referência) para iterações.  
+Objetivo: Calcular a pontuação do jogador 2. A pontuação "pontuacao_j2" varia a cada jogada. Ela recebe um valor específico dependedno da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j2" aumenta cada vez que o jogador acerta o ataque em alguma peça.    
+Retorno: Retorna "true" se o valor da variável "j2" do jogador 2 chegar a 84 e "false" se não.   
 
-- ```struct_relogio carregar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2)```
-Argumentos: 
-Objetivo:  
-Retorno: 
+- ```void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo)```  
+Argumentos: Matriz 17x17 do jogador 1 e 2, vetor de strings do jogador 1 e 2, pontuação por ataque do jogador 1 e 2, variável para iteração a cada acerto do jogador 1 e 2 e a struct "struct_relogio" gerada na última jogada.   
+Objetivo: Salvar em um arquivo de escrita, com o nome que o usuário digitar, as últimas informações do jogo. Salva o tempo de exucução de jogo até aquele momento, a pontuação do jogador 1 e 2 e as matrizes 17x17 ("tabuleiro_baixo", referente ao "back-end"). Os elementos dessas matrizes, que no início estavam zerados, ao longo do jogo foram sendo substituídos por números de acordo com a peça atingida. Então, quando o usuário quer gravar o jogo, essa configuração final da matriz é salva no arquivo.  
+Retorno: Não há retorno.    
+
+- ```struct_relogio carregar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2)```  
+Argumentos: Matriz 17x17 do jogador 1 e 2, pontuação por ataque do jogador 1 e 2 e variável para iteração a cada acerto do jogador 1 e 2.  
+Objetivo: Abrir o arquivo salvo com o comando "GRAVAR" anteriormente para leitura. Ler as informações gravadas: o tempo de execução, a pontuação do jogador 1 e 2 e as matrizes 17x17 ("tabuleiro_baixo", referente ao "back-end").    
+Retorno: Retorna a struct "struct_relogio" com o tempo de exucução de onde o jogo deve continuar.   
+
+- ```void redesign_tabuleiro_alto (int** tabuleiro_baixo, char** tabuleiro_alto, int n)```  
+Argumentos: Matriz 17x17 (beack-end), vetor de strings (front-end) e uma variável para identificar qual o referente jogador.  
+Objetivo: A partir do "tabuleiro_baixo" que foi salvo no arquivo e, posteriormente, lido, o "tabuleiro_alto" é reconstruído, subbstituindo os números referentes a água ou a alguma peça pelos seus símbolos e reformulando o design.  
+Retorno: Não há retorno.     
+
+- ```void resetar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2, char** tabuleiro_alto1, char** tabuleiro_alto2, int* pontuacao_j1, int* pontuacao_j2, int* j1, int* j2)```  
+Argumentos: Matriz 17x17 do jogador 1 e 2, vetor de strings do jogador 1 e 2, pontuação por ataque do jogador 1 e 2, variável para iteração a cada acerto do jogador 1 e 2.  
+Objetivo: Zerar todos os elementos das matrizes ("tabuleiro_baixo"), refazer os vetores de strings ("tabuleiro_alto") somente com o design e zerar a pontuação por ataque dos dois jogadores e as duas variáveis de iteração, assim permitindo que o jogo seja reiniciado.   
+Retorno: Não há retorno.  
 
 #### Bibliotecas criadas:
 
-- ```constants.h```  
-Arquivo header que contém todas as MACROS criadas para o jogo
+- ```constants.h```    
+Arquivo header que contém todas as MACROS criadas para o jogo.  
 
-- ```lib_naval.h```  
-Arquivo header para criar a biblioteca que contém as funções auxiliares públicas, que são utilizadas no código principal: 
+- ```lib_naval.h```    
+Arquivo header para criar a biblioteca que contém as funções auxiliares públicas, que são utilizadas no código principal:   
   
-```void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2)```  
-Argumentos: o primeiro argumento deve consistir em uma matriz 17x17, referente ao tabuleiro "back-end" do jogador
-1 e o segundo argumento deve consistir em uma matriz 17x17, referente ao tabuleiro "back-end" do jogador 2.  
-Objetivo: Posicionar a armada do jogador 1 e do jogador 2 de forma aleatória, seguindo os designs de embarcação
-disponibilizados em: https://docs.google.com/spreadsheets/d/1WBbv69VxdggPeCLtptqalj6iOX6eftSXgL8V4Xe4kGc/edit?usp=sharing
-(acesso permitido para o domínio Universidade de São Paulo). Nesse arquivo em Excel, é possível ver, em rosa, 
-o centro da embarcação, elemento essencial para a construção das embarcações.    
-Retorno:
+```void posicionar_armada (int** tabuleiro_baixo1, int** tabuleiro_baixo2)```    
+Argumentos: o primeiro argumento deve consistir em uma matriz 17x17, referente ao tabuleiro "back-end" do jogador 1 e o segundo argumento deve consistir em uma matriz 17x17, referente ao tabuleiro "back-end" do jogador 2.    
+Objetivo: Posicionar a armada do jogador 1 e do jogador 2 de forma aleatória, seguindo os designs de embarcação disponibilizados em: https://docs.google.com/spreadsheets/d/1WBbv69VxdggPeCLtptqalj6iOX6eftSXgL8V4Xe4kGc/edit?usp=sharing (acesso permitido para o domínio Universidade de São Paulo). Nesse arquivo em Excel, é possível ver, em rosa, o centro da embarcação, elemento essencial para a construção das embarcações.        
+Retorno: Não há retorno.    
   
-```void printar_tabuleiro (char **tabuleiro_alto)```  
-Argumentos: recebe como argumento o tabuleiro "front-end" do jogado.   
-Objetivo: imprime o tabuleiro "front-end" do jogador no terminal.  
-Retorno: 
+```void printar_tabuleiro (char **tabuleiro_alto)```    
+Argumentos: recebe como argumento o tabuleiro "front-end" do jogado.     
+Objetivo: imprime o tabuleiro "front-end" do jogador no terminal.    
+Retorno: Não há retorno.   
 
-- ```lib_naval.c```  
-Arquivo .c que contém o desenvolvimentos das funções públicas e a declaração e o desenvolvimento de funções privadas, as quais só são utilizadas para gerar a função "void posicionar armada":
+- ```lib_naval.c```    
+Arquivo .c que contém o desenvolvimentos das funções públicas e a declaração e o desenvolvimento de funções privadas, as quais só são utilizadas para gerar a função "void posicionar armada":  
 
-```void portaavioes (int** tabuleiro_baixo)```    
-Argumentos: recebe como argumento o tabuleiro "back-end" do jogado.   
-Objetivo: Posicionar o porta-aviões no tabuleiro do jogador. No tabuleiro "back-end", o porta-aviões é representado
-pelo número 2 ("dois"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
-para o porta-aviões, de forma a possibilitar o posicionamento da embarcação.  
-Retorno:  
+```void portaavioes (int** tabuleiro_baixo)```      
+Argumentos: recebe como argumento o tabuleiro "back-end" do jogado.     
+Objetivo: Posicionar o porta-aviões no tabuleiro do jogador. No tabuleiro "back-end", o porta-aviões é representado pelo número 2 ("dois"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório para o porta-aviões, de forma a possibilitar o posicionamento da embarcação.    
+Retorno: Não há retorno.   
 
 ```void couracados (int** tabuleiro_baixo)```  
 Argumentos: recebe como argumento o tabuleiro "back-end" do jogador.    
-Objetivo: Posicionar o couraçado no tabuleiro do jogador. No tabuleiro "back-end", o couraçado é representado
-pelo número 3 ("três"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
-para o couraçado, de forma a possibilitar o posicionamento da embarcaçã.   
-Retorno:  
+Objetivo: Posicionar o couraçado no tabuleiro do jogador. No tabuleiro "back-end", o couraçado é representado pelo número 3 ("três"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório para o couraçado, de forma a possibilitar o posicionamento da embarcaçã.     
+Retorno: Não há retorno.   
 
-```void torpedeiros (int** tabuleiro_baixo)```
-Argumentos: recebe como argumento o tabuleiro "back-end" do jogador.  
-Objetivo: Posicionar o torpedeiro no tabuleiro do jogador. No tabuleiro "back-end", o torpedeiro é representado
-pelo número 4 ("quatro"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
-para o torpedeiro, de forma a possibilitar o posicionamento da embarcação.  
+```void torpedeiros (int** tabuleiro_baixo)```    
+Argumentos: recebe como argumento o tabuleiro "back-end" do jogador.    
+Objetivo: Posicionar o torpedeiro no tabuleiro do jogador. No tabuleiro "back-end", o torpedeiro é representado pelo número 4 ("quatro"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório para o torpedeiro, de forma a possibilitar o posicionamento da embarcação.  
+Retorno: Não há retorno.    
 
-```void hidroavioes (int** tabuleiro_baixo)```
-Argumentos: recebe como argumento o tabuleiro "back-end" do jogador.  
-Objetivo: Posicionar o hidroavião no tabuleiro do jogador. No tabuleiro "back-end", o hidroavião é representado
-pelo número  ("cinco"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório 
-para o hidroavião, de forma a possibilitar o posicionamento da embarcação.  
-Retorno:  
+```void hidroavioes (int** tabuleiro_baixo)```  
+Argumentos: recebe como argumento o tabuleiro "back-end" do jogador.    
+Objetivo: Posicionar o hidroavião no tabuleiro do jogador. No tabuleiro "back-end", o hidroavião é representado pelo número  ("cinco"). A função rand() gera um centro (representado pelo bloco rosa no documento Excel) aleatório para o hidroavião, de forma a possibilitar o posicionamento da embarcação.      
+Retorno: Não há retorno.     
 
 ### Autores
 
