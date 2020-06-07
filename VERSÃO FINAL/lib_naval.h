@@ -10,10 +10,32 @@ USP - ICC1 - 2020
 
 #include <_mingw.h>                        // Biblioteca padrão utilizada para auxiliar na compilação do código
                                            // no Windows         
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>              
+#include <ctype.h>              
+#include <string.h>             
+#include <time.h>
+#include <windows.h>
 
 #ifndef LIB_NAVAL_H_                       
 #define LIB_NAVAL_H_
 #pragma GCC system_header
+
+// STRUCT
+typedef struct {
+    int linha;
+    int coluna;
+} jogada;
+
+typedef struct {
+    unsigned long int segundos;
+    unsigned long int minutos;
+    unsigned long int horas;
+} struct_relogio;
+
+// FIM STRUCT
 
 _CRTIMP __cdecl __MINGW_NOTHROW void posicionar_armada (int** , int** );   
 
@@ -205,7 +227,7 @@ _CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador2(char** , int* , clock_t , 
 /*
 Cabeçalho: void printar_jogador2(char** , int* , clock_t , struct_relogio )
 
-Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto1"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
+Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto2"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
 
 Objetivo: Essa função imprime a tela do jogador 2, de forma a imprimir o tabuleiro "front end" do jogador 1, por meio da função printar_tabuleiro()
@@ -274,20 +296,43 @@ _CRTIMP __cdecl __MINGW_NOTHROW struct_relogio carregar_jogo (int** , int** , in
 /*
 Cabeçalho: struct_relogio carregar_jogo (int** , int** , int* , int* , int* , int* , int* )
 
-Argumentos: Matriz 17x17 do jogador 1 e 2, referente aos tabuleiros "back end", ponteiro para a variável com pontuação dos jogadores 1 e 2,  
-variável com o número de acertos do jogador 1 e 2 e 
+Argumentos: Matriz 17x17 do jogador 1 e 2, referente aos tabuleiros "back end", ponteiros para as variáveis com as pontuações dos jogadores 1 e 2,  
+ponteiros para as variáveis com o número de acertos dos jogadores 1 e 2 e ponteiro para a variável com o número de jogadores.
 
-Objetivo: Abrir o arquivo salvo com o comando "GRAVAR" anteriormente para leitura. Ler as informações gravadas: o tempo de execução, a pontuação do jogador 1 e 2 e as matrizes 17x17 ("tabuleiro_baixo", referente ao "back-end").
+Objetivo: Abrir o arquivo salvo com o comando "GRAVAR" anteriormente para leitura. Ler as informações gravadas: o tempo de execução, a pontuação
+do jogadores 1 e 2, o número de acerto dos jogadores 1 e 2, o número de jogadores e as matrizes 17x17 ("tabuleiro_baixo", referente ao "back-end").
 
-Retorno: Retorna a struct "struct_relogio" com o tempo de exucução de onde o jogo deve continuar.
+Retorno: Struct "struct_relogio" com o tempo de execução de onde o jogo deve continuar.
 */
 
 _CRTIMP __cdecl __MINGW_NOTHROW void redesign_tabuleiro_alto (int** , char** , int );
 
-/**/
+/*
+Cabeçalho: void redesign_tabuleiro_alto (int** , char** , int )
+
+Argumentos: Matriz 17x17, referente ao tabuleiro "back end", vetor de strings, referente ao tabuleiro "front end" e uma variável para identificar 
+qual o referente jogador.
+
+Objetivo: A partir do tabuleiro "back end" que foi salvo no arquivo e, posteriormente, lido, o tabueleiro "front end" é reconstruído, substituindo 
+os números referentes à água ou a alguma peça pelos seus símbolos, de forma a reformular o design.
+
+Retorno: Não há retorno.
+*/
 
 _CRTIMP __cdecl __MINGW_NOTHROW void resetar_jogo (int** , int** , char** , char** , int* , int* , int* , int* );
 
-/**/
+/*
+Cabeçalho: void resetar_jogo (int** , int** , char** , char** , int* , int* , int* , int* )
+
+Argumentos: Matrizes 17x17 dos jogadores 1 e 2, referente aos tabuleiros "back end", vetores de strings dos jogadores 1 e 2, referente aos 
+tabuleiros "front end", ponteiros para a pontuações dos jogadores 1 e 2 e ponteiros para as variáveis com o número de acertos dos jogadores 
+1 e 2.
+
+Objetivo: Zerar todos os elementos das matrizes, referente ao tabuleiro "back end", refazer os vetores de strings, referente ao tabuleiro "front
+end", somente com o design inicial e zerar as pontuações dos dois jogadores e as duas variáveis com os números de acerto dos jogadores, assim 
+permitindo que o jogo seja reiniciado.
+
+Retorno: Não há retorno.
+*/
 
 #endif
