@@ -205,7 +205,7 @@ _CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador2(char** , int* , clock_t , 
 /*
 Cabeçalho: void printar_jogador2(char** , int* , clock_t , struct_relogio )
 
-Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto2"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
+Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto1"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
 
 Objetivo: Essa função imprime a tela do jogador 2, de forma a imprimir o tabuleiro "front end" do jogador 1, por meio da função printar_tabuleiro()
