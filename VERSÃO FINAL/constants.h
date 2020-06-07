@@ -12,3 +12,24 @@
 #define NUM_COURACADOS 2              // Número de couraçados (2)
 #define NUM_TORPEDEIROS 3             // Número de torpedeiros (3)
 #define NUM_HIDROAVIOES 4             // Número de hidroaviões (4)
+
+/* Fórmula para definir os valores da pontuação e do erro:
+
+Pontuação: ((N_blocos_peça * N_peças)* 1000)/N_posições_tabuleiro
+
+Onde: 
+N_blocos_peça: número total de blocos que a peça que foi atingida ocupa.
+N_peças: quantidade de peças disponíveis no jogo, para aquela que foi atingida.
+N_posições_tabuleiro: Número total de posições no tabuleiro (256).
+
+Erro: ((N_posições_tabuleiro - N_blocos_total_peças)/N_posições_tabuleiro)*5
+
+Onde:
+N_posições_tabuleiro: Número total de posições no tabuleiro (256).
+N_blocos_total_peças: Indica a quantidade de blocos total que as peças da armada ocupam (84).
+
+*/
+
+
+
+
