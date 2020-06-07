@@ -29,69 +29,116 @@ Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pront
 #### Funções auxiliares:
 
 - ```void regras()```     
+  
 Argumentos: Não há argumentos.  
-Objetivo: Imprimir na tela do usuário as regras.  
+  
+Objetivo: Imprimir, na tela do usuário, as regras.  
+  
 Retorno: Não há retorno.  
 
-- ```void printar_menu()```     
-Argumentos: Não há argumentos.    
-Objetivo: Imprimir na tela do usuário o menu.    
+- ```void printar_menu()```  
+
+Argumentos: Não há argumentos.   
+
+Objetivo: Imprimir, na tela do usuário, o menu.    
+
 Retorno: Não há retorno.   
 
-- ```int** alocar_tabuleiro_baixo()```    
-Argumentos: não há argumentos.    
-Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), a essa matriz foi dado o nome de tabuleiro_baixo (referente ao tabuleiro "back-end").  
-Retorno: Retorna o tabuleiro_baixo.  
+- ```int** alocar_tabuleiro_baixo()```   
 
-- ```void lateral_tabuleiro_alto (char** tabuleiro_alto)```  
+Argumentos: não há argumentos.    
+
+Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), a essa matriz foi dado o nome de tabuleiro_baixo (referente ao tabuleiro "back-end").  
+
+Retorno: Uma matriz 17x17, referente ao tabuleiro_baixo de um dos jogadores.    
+
+- ```void free_tabuleiros(int** , int** , char **, char **)```      
+
+Argumentos: As duas matrizes 17x17 criadas e alocadas,"tabuleiro_baixo" e os dois vetores de string criados e alocados, "tabuleiro_alto".    
+
+Objetivo: Desalocar a memória de cada uma dessas matrizes.    
+
+Retorno: Não há retorno. 
+
+- ```void lateral_tabuleiro_alto (char**)```  
+
 Argumentos: Vetor de strings chamado de tabuleiro_alto (referente ao tabuleiro "front-end").  
-Objetivo: Definir as strings em cada elemneto do vetor determinadas pela primeira linha (que contém as letras de A a P) e pela primeira coluna (que contém os números de 1 a 16) do tabuleiro de cada jogador da batalha naval.    
+
+Objetivo: Definir as strings em cada elemento do vetor determinadas pela primeira linha (que contém as letras de A a P) e pela primeira coluna (que contém os números de 1 a 16) do tabuleiro de cada jogador da batalha naval.    
+
+Retorno: Não há retorno.  
+  
+- ```void desenho_tabuleiro_alto (char** )```  
+
+Argumentos: Vetor de strings, referente ao tabuleiro_alto do jogador (tabuleiro "front-end").  
+
+Objetivo: Preenche o vetor interior de strings com a seguinte string: "    |"  
+
 Retorno: Não há retorno.  
 
-- ```char** design_tabuleiro_alto ()```   
-Argumentos: Não há argumentos.        
-Objetivo: Alocar memória para um vetor de strings com 289 strings (17x17) que será chamado de "tabuleiro_alto" e preenchê-lo com o design escolhido para o tabuleiro.         
+ - ```char** design_tabuleiro_alto ()```     
+Argumentos: Não há argumentos.  
+
+Objetivo: Alocar memória para um vetor de strings com 289 strings (17x17), referente ao "tabuleiro_alto", e preenchê-lo com o design 
+escolhido para o tabuleiro, utilizando as funções desenho_tabuleiro_alto (char** ) e design_tabuleiro_alto ().        
+
 Retorno: Retorna o tabuleiro_alto.  
 
-- ```void free_tabuleiros(int** tabuleiro_baixo1, int** tabuleiro_baixo2, char **tabuleiro_alto1, char **tabuleiro_alto2)```       
-Argumentos: As duas matrizes 17x17 criadas e alocadas,"tabuleiro_baixo" e os dois vetores de string criados e alocados, "tabuleiro_alto".    
-Objetivo: Desalocar a memória de cada uma dessas matrizes.    
-Retorno: Não há retorno.    
+- ```void zerar_tabuleiros_baixos (int** , int**)```        
 
-- ```void zerar_tabuleiros_baixos (int** tabuleiro_baixo1, int** tabuleiro_baixo2)```        
 Argumentos: As duas matrizes 17x17 do jogador 1 e 2.    
-Objetivo: Colocar 0 em todos os espaços alocados para essas matrizes.           
+
+Objetivo: Colocar 0 em todos os espaços alocados para essas matrizes.     
+
 Retorno: Não há retorno.           
 
  - ```jogada pow()```      
+ 
 Argumentos: Não há argumentos.     
-Objetivo: Utilizar a struct "jogada" e a função "atoi" para salvar a linha e a coluna escolhida pelo usuário como números inteiros.    
-Retorno: A struct cordenadas contendo os valores da linha e da coluna que o usuário escolheu para atingir.   
 
-- ```struct_relogio relogio(clock_t clock_inicial, struct_relogio addition)```  
-Argumentos: variável que armazena o tempo da função clock(), a qual foi chmada no começo da função principal e a struct "struct_relogio" como "addition", que teve suas variáveis todas zeradas no começo da função principal.  
-Objetivo: Utilizar a struct "relogio" para guardar os valores dos segundos, minutos e horas no momento em que a função é chamada.     
-Retorno: Retorna a struct relogio com o valor de segundos, minutos e horas.     
+Objetivo: Recebe as coordenadas digitadas pelo usuário para transformá-las em coordenadas númericas que possam ser utilizadas para a 
+identificar essa posição no tabuleiro baixo.  
 
- - ```void printar_jogador1(char** tabuleiro_alto2, int* pontuacao_j1, clock_t clock_inicial, struct_relogio addition)```    
-Argumentos: Vetor de strings do jogador 2, pontuação do jogador 1, variável que armazena o tempo da função clock(), a qual foi chamada no começo da função principal e a struct "struct_relogio".   
-Objetivo: Essa função imprime a tela do jogador 1 , portanto tem o "tabuleiro_alto2", a pontuação do jogador 1 e o tempo de jogo nesse momento. O "tabuleiro_alto2"é impresso com a função "printar_tabuleiro" definida na biblioteca "lib_naval.h".  
+Retorno: Struct "jogada", que contem os valores da linha e da coluna que o usuário escolheu para atingir.   
+
+- ```struct_relogio relogio(clock_t, struct_relogio )```  
+
+Argumentos: long "clock_t" que contem o clock do momento em que o jogador iniciou o jogo e uma struct "struct_relogio" que adiciona o tempo de execução de jogo, em casos de jogos carregados.  
+
+Objetivo: Utilizar a struct "relogio" para guardar os valores dos segundos, minutos e horas no momento em que a função é chamada. 
+
+Retorno: Struct "struct_relogio" com o valor de segundos, minutos e horas.     
+
+ - ```void printar_jogador1(char**, int*, clock_t, struct_relogio)```    
+ 
+Argumentos: Vetor de strings do jogador 2 ("tabuleiro_alto2"), pontuação do jogador 1, long "clock_t" que armazena o tempo inicial de jogo  e a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.  
+
+Objetivo: Essa função imprime a tela do jogador 1, de forma a imprimir o tabuleiro "front end" do jogador 2, por meio da função printar_tabuleiro(), a pontuação do jogador 1 e o tempo de jogo nesse momento.   
 Retorno: Não há retorno.  
 
-- ```void printar_jogador2(char** tabuleiro_alto1, int* pontuacao_j2, clock_t clock_inicial, struct_relogio addition)```  
-Argumentos: Vetor de strings do jogador 1, pontuação do jogador 2, variável que armazena o tempo da função clock(), a qual foi chamada no começo da função principal e a struct "struct_relogio".  
-Objetivo: Essa função imprime a tela do jogador 2, portanto deve ter o "tabuleiro_alto1", a pontuação do jogador 2 e o tempo de jogo nesse momento. O "tabuleiro_alto1" é impresso com a função "printar_tabuleiro" definida na biblioteca "lib_naval.h".  
-Retorno: Não há retorno.  
+- ```void printar_jogador2(char**, int*, clock_t, struct_relogio)```  
 
-- ```bool func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuacao_j1, int* j1)```  
-Argumentos: Matriz 17x17 do jogador 2, vetor de strings do jogador 2, variável (ponteiro para passagem por referência) que armazena o valor ganhado ou perdido a cada ataque, variável (ponteiro para passagem por referência) para iterações.  
-Objetivo: Calcular a pontuação do jogador 1. A pontuação "pontuacao_j1" varia a cada jogada. Ela recebe um valor específico dependedno da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j1" aumenta cada vez que o jogador acerta o ataque em alguma peça.   
-Retorno: Retorna "true" se o valor da variável "j1" do jogador 1 chegar a 84 e "false" se não.  
+Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto1"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.  
+
+Objetivo: Essa função imprime a tela do jogador 2, de forma a imprimir o tabuleiro "front end" do jogador 1, por meio da função printar_tabuleiro(), a pontuação do jogador 2 e o tempo de jogo nesse momento.  
+
+Retorno: Não há retorno.
+
+- ```bool func_jogador1(int**, char**, int*  int*)```  
+
+Argumentos: Matriz 17x17 do jogador 2, referente ao tabuleiro "back-end", vetor de strings do jogador 2, referente ao tabueleiro "front-end", ponteiro para a variável de pontuação do jogador 1 e ponteiro para a variável que armazena o número de acertos do jogador 1.  
+
+Objetivo: Calcular a pontuação do jogador 1. A pontuação do jogador 1 varia a cada jogada. Ela recebe um valor específico dependendo da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j1" aumenta em 1 cada vez que o jogador acerta o ataque em alguma peça.  
+
+Retorno: Retorna uma variável booleana, sendo essa "true" se o valor da variável "j1" do jogador 1 chegar a 84 e "false" se não. Essa variável ponta se o jogador ganhou o jogo, isto é, acertou todas as posições de todas as embarcações.  
 
 - ```bool func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuacao_j2, int* j2)```  
-Argumentos: Matriz 17x17 do jogador 1, vetor de strings do jogador 1, variável (ponteiro para passagem por referência) que armazena o valor ganhado ou perdido a cada ataque, variável (ponteiro para passagem por referência) para iterações.  
-Objetivo: Calcular a pontuação do jogador 2. A pontuação "pontuacao_j2" varia a cada jogada. Ela recebe um valor específico dependedno da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j2" aumenta cada vez que o jogador acerta o ataque em alguma peça.    
-Retorno: Retorna "true" se o valor da variável "j2" do jogador 2 chegar a 84 e "false" se não.   
+
+Argumentos: Matriz 17x17 do jogador 1, referente ao tabuleiro "back-end", vetor de strings do jogador 1, referente ao tabueleiro "front-end", ponteiro para a variável de pontuação do jogador 1, ponteiro para a variável que armazena o número de acertos do jogador 1 e uma variável booleana que aponta se o jogo está no modo single ou multiplayer.  
+
+Objetivo: Caso a variável booleana seja "false", indica que o jogo está no modo "JOGADOR X COMPUTADOR". Nesse modo, essa função gera dois números aleatórios entre 1 e 16, referentes a linha e a coluna da jogada. Caso a variável booleana seja "true", indica que o jogo está no modo "JOGADOR X JOGADOR". Nesse modo, essa função recebe as coordenadas númeras do disparo do jogador e realiza a correspondência entre o tabuleiro alto e o tabuleiro baixo. Além disso, calcular a pontuação do jogador 2, a qual varia a cada jogada. Ela recebe um valor específico dependendo da peça que o jogador atingiu e perde um certo valor quando ele atinge a água. As MACROS que definem esses valores estão declaradas na biblioteca "constants.h". O valor de "j2" aumenta em 1 cada vez que o jogador acerta o ataque em alguma peça.   
+
+Retorno: Ua variável booleana, sendo essa "true" se o valor da variável "j2" do jogador 2 chegar a 84 e "false" se não. Essa variável aponta se o jogador ganhou o jogo, isto é, acertou todas as posições de todas as embarcações.
 
 - ```void gravar_jogo (int** tabuleiro_baixo1, int** tabuleiro_baixo2,  char **tabuleiro_alto1, char **tabuleiro_alto2, int pontuacao_j1, int pontuacao_j2, int j1, int j2, struct_relogio tempo_jogo)```  
 Argumentos: Matriz 17x17 do jogador 1 e 2, vetor de strings do jogador 1 e 2, pontuação por ataque do jogador 1 e 2, variável para iteração a cada acerto do jogador 1 e 2 e a struct "struct_relogio" gerada na última jogada.   
