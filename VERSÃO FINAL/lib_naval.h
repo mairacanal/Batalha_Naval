@@ -6,10 +6,7 @@ do código principal do jogo.
 
 USP - ICC1 - 2020
 */
-
-
-#include <_mingw.h>                        // Biblioteca padrão utilizada para auxiliar na compilação do código
-                                           // no Windows         
+     
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -21,7 +18,6 @@ USP - ICC1 - 2020
 
 #ifndef LIB_NAVAL_H_                       
 #define LIB_NAVAL_H_
-#pragma GCC system_header
 
 // STRUCT
 typedef struct {
@@ -37,7 +33,7 @@ typedef struct {
 
 // FIM STRUCT
 
-_CRTIMP __cdecl __MINGW_NOTHROW void posicionar_armada (int** , int** );   
+void posicionar_armada (int** , int** );   
 
 /*
 Cabeçalho: void posicionar_armada (int** , int**)
@@ -51,7 +47,7 @@ disponibilizados em: https://docs.google.com/spreadsheets/d/1WBbv69VxdggPeCLtptq
 o centro da embarcação, elemento essencial para a construção das embarcações.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void printar_tabuleiro (char** );
+void printar_tabuleiro (char** );
 
 /*
 Cabeçalho: void printar_tabuleiro (char** )
@@ -81,7 +77,7 @@ Objetivo: imprime o tabuleiro "front-end" do jogador no terminal. O tabuleiro "f
 Sendo preenchido de acordo com as orientações do professor.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void printar_regras ();
+void printar_regras ();
 
 /*
 Cabeçalho: void printar_regrar()
@@ -93,7 +89,7 @@ Objetivo: Imprimir, na tela do usuário, as regras.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void printar_menu ();
+void printar_menu ();
 
 /*
 Cabeçalho: void printar_menu()
@@ -105,7 +101,7 @@ Objetivo: Imprimir, na tela do usuário, o menu.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW int** alocar_tabuleiro_baixo ();
+int** alocar_tabuleiro_baixo ();
 
 /*
 Cabeçalho: int** alocar_tabuleiro_baixo()
@@ -115,10 +111,10 @@ Argumentos: não há argumentos.
 Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), 
 a essa matriz foi dado o nome de tabuleiro_baixo (referente ao tabuleiro "back-end").
 
-Retorno: Uma matriz 17x17, referente ao tabuleiro_baixo de um dos jogadores.
+Retorno: Retorna uma matriz 17x17, referente ao tabuleiro_baixo de um dos jogadores.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void free_tabuleiros (int** , int** , char **, char **);
+void free_tabuleiros (int** , int** , char **, char **);
 
 /*
 Cabeçalho: void free_tabuleiros (int** , int** , char **, char **)
@@ -130,7 +126,7 @@ Objetivo: Desalocar a memória de cada uma dessas matrizes.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void lateral_tabuleiro_alto (char** );
+void lateral_tabuleiro_alto (char** );
 
 /*
 Cabeçalho: void lateral_tabuleiro_alto (char** )
@@ -143,19 +139,19 @@ coluna (que contém os números de 1 a 16) do tabuleiro de cada jogador da batal
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void desenho_tabuleiro_alto (char** );
+void desenho_tabuleiro_alto (char** );
 
 /*
 Cabeçalho: void desenho_tabuleiro_alto (char** )
 
 Argumentos: Vetor de strings, referente ao tabuleiro_alto do jogador (tabuleiro "front-end").
 
-Objetivo: Preenche o vetor interior de strings com a seguinte string: "    |".
+Objetivo: Preenche o vetor interior de strings com a seguinte string: "    |"
 
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW char** design_tabuleiro_alto ();
+char** design_tabuleiro_alto ();
 
 /*
 Cabeçalho: char** design_tabuleiro_alto ()
@@ -165,11 +161,11 @@ Argumentos: Não há argumentos.
 Objetivo: Alocar memória para um vetor de strings com 289 strings (17x17), referente ao "tabuleiro_alto", e preenchê-lo com o design 
 escolhido para o tabuleiro, utilizando as funções desenho_tabuleiro_alto (char** ) e design_tabuleiro_alto (). 
 
-Retorno: tabuleiro_alto.
+Retorno: Retorna o tabuleiro_alto.
 */
 
 
-_CRTIMP __cdecl __MINGW_NOTHROW void zerar_tabuleiros_baixos (int** , int** );
+void zerar_tabuleiros_baixos (int** , int** );
 
 /*
 Cabeçalho: void zerar_tabuleiros_baixos (int** , int** )
@@ -181,7 +177,7 @@ Objetivo: Colocar 0 em todos os espaços alocados para essas matrizes.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW jogada pow ();
+jogada pow ();
 
 /*
 Cabeçalho: jogada pow ()
@@ -194,10 +190,10 @@ identificar essa posição no tabuleiro baixo.
 Retorno: Struct "jogada", que contem os valores da linha e da coluna que o usuário escolheu para atingir.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW struct_relogio relogio (clock_t , struct_relogio );
+struct_relogio relogio (clock_t , struct_relogio );
 
 /*
-Cabeçalho: struct_relogio relogio (clock_t , struct_relogio)
+Cabeçalho: struct_relogio relogio (clock_t , struct_relogio )
 
 Argumentos: long "clock_t" que contem o clock do momento em que o jogador iniciou o jogo e uma struct "struct_relogio" que adiciona o tempo
 de execução de jogo, em casos de jogos carregados.
@@ -208,10 +204,10 @@ adiciona o tempo prévio de execução.
 Retorno: Struct "struct_relogio" com o valor de segundos, minutos e horas.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador1(char** , int* , clock_t , struct_relogio );
+void printar_jogador1(char** , int* , clock_t , struct_relogio );
 
 /*
-Cabeçalho: void printar_jogador1(char**, int*, clock_t , struct_relogio)
+Cabeçalho: void printar_jogador1(char** , int* , clock_t , struct_relogio )
 
 Argumentos: Vetor de strings do jogador 2 ("tabuleiro_alto2"), pontuação do jogador 1, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
@@ -222,10 +218,10 @@ a pontuação do jogador 1 e o tempo de jogo nesse momento.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador2(char** , int* , clock_t , struct_relogio );
+void printar_jogador2(char** , int* , clock_t , struct_relogio );
 
 /*
-Cabeçalho: void printar_jogador2(char**, int*, clock_t, struct_relogio)
+Cabeçalho: void printar_jogador2(char** , int* , clock_t , struct_relogio )
 
 Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto2"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
@@ -236,7 +232,7 @@ a pontuação do jogador 2 e o tempo de jogo nesse momento.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW bool func_jogador1(int**, char**, int*, int*);
+bool func_jogador1(int** , char** , int* , int* );
 
 /*
 Cabeçalho: bool func_jogador1(int** , char** , int* , int* );
@@ -252,10 +248,10 @@ Retorno: Retorna uma variável booleana, sendo essa "true" se o valor da variáv
 aponta se o jogador ganhou o jogo, isto é, acertou todas as posições de todas as embarcações.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW bool func_jogador2(int** , char** , int* , int* , bool );
+bool func_jogador2(int** , char** , int* , int* , bool );
 
 /*
-Cabeçalho: bool func_jogador2(int** , char** , int* , int* , bool)
+Cabeçalho: bool func_jogador2(int** , char** , int* , int* , bool )
 
 Argumentos: Matriz 17x17 do jogador 1, referente ao tabuleiro "back-end", vetor de strings do jogador 1, referente ao tabueleiro "front-end",
 ponteiro para a variável de pontuação do jogador 1, ponteiro para a variável que armazena o número de acertos do jogador 1 e uma variável
@@ -273,7 +269,7 @@ Retorno: Retorna uma variável booleana, sendo essa "true" se o valor da variáv
 aponta se o jogador ganhou o jogo, isto é, acertou todas as posições de todas as embarcações.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void gravar_jogo (int** , int** , int , int , int , int , bool , struct_relogio );
+void gravar_jogo (int** , int** , int , int , int , int , bool , struct_relogio );
 
 /*
 Cabeçalho: void gravar_jogo (int** , int** , int , int , int , int , bool , struct_relogio )
@@ -291,7 +287,7 @@ foram sendo substituídos por números de acordo com a peça atingida. Então, q
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW struct_relogio carregar_jogo (int** , int** , int* , int* , int* , int* , int* );
+struct_relogio carregar_jogo (int** , int** , int* , int* , int* , int* , int* );
 
 /*
 Cabeçalho: struct_relogio carregar_jogo (int** , int** , int* , int* , int* , int* , int* )
@@ -305,7 +301,7 @@ do jogadores 1 e 2, o número de acerto dos jogadores 1 e 2, o número de jogado
 Retorno: Struct "struct_relogio" com o tempo de execução de onde o jogo deve continuar.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void redesign_tabuleiro_alto (int** , char** , int );
+void redesign_tabuleiro_alto (int** , char** , int );
 
 /*
 Cabeçalho: void redesign_tabuleiro_alto (int** , char** , int )
@@ -319,7 +315,7 @@ os números referentes à água ou a alguma peça pelos seus símbolos, de forma
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW void resetar_jogo (int** , int** , char** , char** , int* , int* , int* , int* );
+void resetar_jogo (int** , int** , char** , char** , int* , int* , int* , int* );
 
 /*
 Cabeçalho: void resetar_jogo (int** , int** , char** , char** , int* , int* , int* , int* )
