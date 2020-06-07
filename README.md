@@ -28,7 +28,7 @@ Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pront
 
 #### Funções auxiliares:
 
-- ```void printar_regas()```     
+- ```void regras()```     
 Argumentos: Não há argumentos.  
 Objetivo: Imprimir na tela do usuário as regras.  
 Retorno: Não há retorno.  
