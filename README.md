@@ -18,12 +18,12 @@ Além disso, é necessário instalar duas extensões no IDE após baixá-lo, dis
 ### Funcionamento
 
 Para o correto funcionamento do jogo é necessário que o usuário crie um diretório (uma pasta) no seu IDE para colocar os quatro arquivos existentes neste repositório: 
-- batalha_naval.c --- que é o arquivo principal que contém o código do jogo
-- lib_naval.h --- que é o arquivo header para a criação de uma biblioteca e declaração das funções
-- lib_naval.c --- que é o arquivo .c para o desenvolvimento das funções auxilares na biblioteca criada
-- constants.h --- que é o arquivo header que contém todas as MACROS utilizadas 
+- batalha_naval.c --- arquivo principal que contém o código do jogo
+- lib_naval.h --- arquivo header para a criação de uma biblioteca e declaração das funções e structs
+- lib_naval.c --- arquivo para o desenvolvimento das funções auxilares 
+- constants.h --- arquivo header que contém todas as MACROS utilizadas 
 
-Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pronto para ser executado. Para isso, é necessário que o usuário ache e copie o caminho para o diretório que contém os arquivos acima, abra o "prompt de comando" 
+Após a clonagem do código de cada arquivo para sua IDE, o jogo já está pronto para ser executado. Para isso, é necessário que o usuário ache e copie o caminho para o diretório que contém os arquivos acima, abra o "prompt de comando" e digite "cd (caminho para o diretório)" e aperte _enter_. Depois, digite "gcc batalha_naval.c constants.h lib_naval.c -o (nome do arquivo a sua escolha).exe" e clique _enter_. E, por último, digite "start (nome escolhido).exe".
 
 ### Documentação 
 
