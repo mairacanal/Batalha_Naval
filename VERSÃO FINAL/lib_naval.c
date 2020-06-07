@@ -447,6 +447,7 @@ bool func_jogador1(int** tabuleiro_baixo2, char** tabuleiro_alto2, int* pontuaca
             func_jogador1(tabuleiro_baixo2, tabuleiro_alto2, pontuacao_j1, j1);
         }
 
+    printf("----------------------------------------------------------------------\n\n");
     printar_tabuleiro(tabuleiro_alto2);
     printf("----------------------------------------------------------------------\n\n");
 
@@ -510,6 +511,7 @@ bool func_jogador2(int** tabuleiro_baixo1, char** tabuleiro_alto1, int* pontuaca
             func_jogador2(tabuleiro_baixo1, tabuleiro_alto1, pontuacao_j2, j2, multi);
         }
 
+    printf("----------------------------------------------------------------------\n\n");
     printar_tabuleiro(tabuleiro_alto1);
     printf("----------------------------------------------------------------------\n\n");
 
