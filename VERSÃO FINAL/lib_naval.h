@@ -115,7 +115,7 @@ Argumentos: não há argumentos.
 Objetivo: Fazer a alocação de memória heap para uma matriz 17x17 e atribuir 0 a todos os bytes alocados (função calloc), 
 a essa matriz foi dado o nome de tabuleiro_baixo (referente ao tabuleiro "back-end").
 
-Retorno: Retorna uma matriz 17x17, referente ao tabuleiro_baixo de um dos jogadores.
+Retorno: Uma matriz 17x17, referente ao tabuleiro_baixo de um dos jogadores.
 */
 
 _CRTIMP __cdecl __MINGW_NOTHROW void free_tabuleiros (int** , int** , char **, char **);
@@ -150,7 +150,7 @@ Cabeçalho: void desenho_tabuleiro_alto (char** )
 
 Argumentos: Vetor de strings, referente ao tabuleiro_alto do jogador (tabuleiro "front-end").
 
-Objetivo: Preenche o vetor interior de strings com a seguinte string: "    |"
+Objetivo: Preenche o vetor interior de strings com a seguinte string: "    |".
 
 Retorno: Não há retorno.
 */
@@ -165,7 +165,7 @@ Argumentos: Não há argumentos.
 Objetivo: Alocar memória para um vetor de strings com 289 strings (17x17), referente ao "tabuleiro_alto", e preenchê-lo com o design 
 escolhido para o tabuleiro, utilizando as funções desenho_tabuleiro_alto (char** ) e design_tabuleiro_alto (). 
 
-Retorno: Retorna o tabuleiro_alto.
+Retorno: tabuleiro_alto.
 */
 
 
@@ -197,7 +197,7 @@ Retorno: Struct "jogada", que contem os valores da linha e da coluna que o usuá
 _CRTIMP __cdecl __MINGW_NOTHROW struct_relogio relogio (clock_t , struct_relogio );
 
 /*
-Cabeçalho: struct_relogio relogio (clock_t , struct_relogio )
+Cabeçalho: struct_relogio relogio (clock_t , struct_relogio)
 
 Argumentos: long "clock_t" que contem o clock do momento em que o jogador iniciou o jogo e uma struct "struct_relogio" que adiciona o tempo
 de execução de jogo, em casos de jogos carregados.
@@ -211,7 +211,7 @@ Retorno: Struct "struct_relogio" com o valor de segundos, minutos e horas.
 _CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador1(char** , int* , clock_t , struct_relogio );
 
 /*
-Cabeçalho: void printar_jogador1(char** , int* , clock_t , struct_relogio )
+Cabeçalho: void printar_jogador1(char**, int*, clock_t , struct_relogio)
 
 Argumentos: Vetor de strings do jogador 2 ("tabuleiro_alto2"), pontuação do jogador 1, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
@@ -225,7 +225,7 @@ Retorno: Não há retorno.
 _CRTIMP __cdecl __MINGW_NOTHROW void printar_jogador2(char** , int* , clock_t , struct_relogio );
 
 /*
-Cabeçalho: void printar_jogador2(char** , int* , clock_t , struct_relogio )
+Cabeçalho: void printar_jogador2(char**, int*, clock_t, struct_relogio)
 
 Argumentos: Vetor de strings do jogador 1 ("tabuleiro_alto2"), pontuação do jogador 2, long "clock_t" que armazena o tempo inicial de jogo  e 
 a struct "struct_relogio" que adiciona o tempo prévio de execução, em caso de jogos carregados.
@@ -236,7 +236,7 @@ a pontuação do jogador 2 e o tempo de jogo nesse momento.
 Retorno: Não há retorno.
 */
 
-_CRTIMP __cdecl __MINGW_NOTHROW bool func_jogador1(int** , char** , int* , int* );
+_CRTIMP __cdecl __MINGW_NOTHROW bool func_jogador1(int**, char**, int*, int*);
 
 /*
 Cabeçalho: bool func_jogador1(int** , char** , int* , int* );
@@ -255,7 +255,7 @@ aponta se o jogador ganhou o jogo, isto é, acertou todas as posições de todas
 _CRTIMP __cdecl __MINGW_NOTHROW bool func_jogador2(int** , char** , int* , int* , bool );
 
 /*
-Cabeçalho: bool func_jogador2(int** , char** , int* , int* , bool )
+Cabeçalho: bool func_jogador2(int** , char** , int* , int* , bool)
 
 Argumentos: Matriz 17x17 do jogador 1, referente ao tabuleiro "back-end", vetor de strings do jogador 1, referente ao tabueleiro "front-end",
 ponteiro para a variável de pontuação do jogador 1, ponteiro para a variável que armazena o número de acertos do jogador 1 e uma variável
